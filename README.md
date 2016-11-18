@@ -89,3 +89,29 @@ Find one other group to be a **discussant** for your presentation.
 
 The discussants will provide a quick (max 2 minute) critique of your 
 presentation--ideas for things you can improve on your paper.
+
+
+________________
+# Gandrud criticsms of third pair assignment
+
+## Gathered/Cleaned/Merged 2 Data Sets (if applicable)
+
+Good discussion of data sources, gathering, cleaning, and merging.
+
+## Descriptive Statistics for Evaluating Research Question
+
+Generally nice plots for describing the data. Though somewhat scant exploration of the data. You could have explored the data in much more detail.
+
+Unclear from the plot what the lines in the first figure show.
+
+## Inferential Statistics for Evaluating Research Question (attempted, but not required)
+
+What you are really interested in is not the level of listings vs hotel occupancy, but instead how the change in the former affects the change in the latter.
+
+## Dynamically Generated Tables/Figures
+
+Dynamically generated plots, but no tables.
+
+
+
+**Total Mark**:  8.5/10
