@@ -47,7 +47,23 @@ In order to successfully run the code, either run the *assignment03_analysis.R* 
 Comments and feedback are encouraged, and can be sent to [Paulo Kalkhake](mailto: p.kalkhake@mpp.hertie-school.org(p.kalkhake@mpp.hertie-school.org)) or [Dan Murphy](mailto:danieljmurphy01@gmail.com)).
 
 
+________
 
+##To Do
+
+#Rsults in a positive correlation, tell why (tourism, etc). What to do?!?!? 
+1. Model A: log_occup_rate = log_supply * econ_control * neighborhood_dummy
+
+# Here, we also introduce time FE to mitigate the above effect
+2. Model B: log_occup_rate = log_supply * econ_control * neighborhood_dummy * year_dummy 
+#Year must be as.factor()
+
+# The effect of AIRBNB is likely best observed once it has reached a critical mass. So, here we introduce an interaction between log_airbnb supply and the absolute level of airbnb supply.
+3. Model C: log_occup_rate = log_supply * econ_control * neighborhood_dummy * year_dummy * interaction variable
+
+### MAYBE. Here, we would try to account for the fact that airbnb supply is more complicated than we have so far defined it. We would do this be mimicking Zervas's methodology. So, we would introduce review data, and redefine airbnb supply to include our best inference as to whether Airbnb was available at a given time based off of those reviews. 
+#To do that, we would define supply as the number of airbnb's available in a given apartment in a given month. This would be calculated by looking at the date that a host signed up for Airbnb and the date of the individual reviews. Upon the sign up date, the listing would be assigned a "life period" of X months, which would then be renewed upon each subsequent review. If a listing exceeds its life period without a review, then we assume that it is no longer available. However, once it recieves another review it would then be considered available again for another X months. 
+4. Model D: 
 
 
 
