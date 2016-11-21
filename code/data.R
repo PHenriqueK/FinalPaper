@@ -18,6 +18,8 @@ try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/"),silent=TRUE)
 # (install when needed)
 
 library(ggplot2)
+library(car)
+library(plm)
 library(lubridate)
 library(knitr)
 library(pastecs)
@@ -32,6 +34,9 @@ library(tidyr)
 library(data.table)
 library(dplyr)
 library(zoo)
+library(xtable)
+library(texreg)
+library(stargazer)
 
 #Loading Data from "Regionaldatenbank Deutschland"
 GENESIS_2010 <- read.csv("data/GENESIS_2010.csv", sep=";", quote="\"", stringsAsFactors = FALSE)

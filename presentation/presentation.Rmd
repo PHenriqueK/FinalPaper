@@ -1,0 +1,46 @@
+---
+title: "The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach"
+author: "Daniel J Murphy & Paulo H Kalkhake"
+date: "2 December 2016"
+output: 
+  ioslides_presentation:
+    #css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
+    logo: 
+  beamer_presentation: default
+#bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- What is your research question? Why is it interesting?
+
+- What data did you gather/methods did you use?
+
+- What are your results?
+
+- Engagingly present your research question and key findings to a general academic audience (fellow students).
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+

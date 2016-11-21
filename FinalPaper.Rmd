@@ -16,6 +16,7 @@ csl: international-economic-journal.csl
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, dev = 'pdf')
+knitr::opts_chunk$set(cache = TRUE)
 
 # Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
@@ -29,7 +30,7 @@ library(RColorBrewer)
 library(stargazer)
 
 # Dynamical Link to Data/Packages R script file (takes some time!)
-# source("assignment03_analysis.R")
+source("code/finalpaper_analysis.R")
 
 ##create a theme for all graphs (courtesy of Max Wolf)
 fte_theme <- function() {
@@ -138,27 +139,37 @@ Upon plotting Airbnb supply against hotel room occupancy, we were surprised to s
 
 ```{r, echo=FALSE}
 
+ggplot(analysis_simple, aes(x=log_ABsupply, y=occup_log)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    fte_theme() +
+    labs(x="Airbnb Listings", y="Hotel Occupance Rate", title="Effect of Airbnb Listings on Hotel Occupancy Rates (2010 - 2014)")
+
+```
+
+```{r, echo=FALSE}
+
 ggplot(analysis_simple, aes(x=AB_supply, y=occup_rate)) +
     geom_point(alpha=0.5, color="#c0392b") +
     geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
     fte_theme() +
-    labs(x="Airbnb Listings", y="Hotel Occupance Rate", title="Effect of Airbnb Listings on Hotel Occupancy Rates (2010 - 2014")
+    labs(x="Airbnb Listings", y="Hotel Occupance Rate", title="Effect of Airbnb Listings on Hotel Occupancy Rates (2010 - 2014)")
 
 ```
-
 
 ##Inferential Analysis
 Thus for further analysis of the data, we included the number of guests per month for each district. 
 
-```{r, echo=FALSE}
-
-simple_model <- lm(occup_rate ~ AB_supply + guests, data=analysis_simple)
-
-```
-
 ``` {r, results='asis'}
 
-stargazer(simple_model, header=FALSE, type='latex')
+#Create clean labels
+labels <- c('Log Airbnb supply', 'Average income/district',
+            'Unemployment rate', 'NID',
+            '4th Ranked School', '(Intercept)')
+
+stargazer(ModelA, ModelB, ModelC, covariate.labels = labels,
+                     title = 'Estimates of the Impact of Airbnb on hotel room occupancy, with different controls.',
+                     digits = 2, type = 'latex', header = FALSE)
 
 ```
 

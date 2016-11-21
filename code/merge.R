@@ -19,7 +19,11 @@ FSO_SBB <- merge(FSO_SBB2, SBB_unemployment_merge, by=c("NID", "year"), all.x = 
 FSO_SBB <- FSO_SBB[order(FSO_SBB$NID, decreasing = FALSE), ]
 
 #Calculating hotel occupancy rate per month/year and district
+FSO_SBB$month <- as.factor(FSO_SBB$month)
 FSO_SBB$occup_rate <- FSO_SBB$nights/(FSO_SBB$beds*30)
+FSO_SBB$occup_rate[FSO_SBB$month == 1 | 3 | 5 | 7 | 8 | 10 | 12] <- FSO_SBB$nights[FSO_SBB$month == 1 | 3 | 5 | 7 | 8 | 10 | 12]/(FSO_SBB$beds[FSO_SBB$month == 1 | 3 | 5 | 7 | 8 | 10 | 12]*31)
+FSO_SBB$occup_rate[FSO_SBB$month == 4 | 6 | 9 | 11] <- FSO_SBB$nights[FSO_SBB$month == 4 | 6 | 9 | 11]/(FSO_SBB$beds[FSO_SBB$month == 4 | 6 | 9 | 11]*30)
+FSO_SBB$occup_rate[FSO_SBB$month == 2 ] <- FSO_SBB$nights[FSO_SBB$month == 2 ]/(FSO_SBB$beds[FSO_SBB$month == 2 ]*28)
 
 #Final merge, creates our comprehensive data frame
 analysis_data <- merge(FSO_SBB, agg_listings_merge, by=c("NID", "year_month"), all.x = TRUE)
