@@ -7,25 +7,28 @@
 ## What it does: merging cleaned data sets
 ##########################
 
-# Set working directory
+#Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper/code"),silent=TRUE)
 try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/code"),silent=TRUE)
 
-#dynamical link
+#Dynamical link
 source('merge.R')
 
-#drop observations for 2015 and further
+#Drop observations for 2015 and further (research focus lies on time period between 2010 and 2014)
 data_2010_2014 <- analysis_data[which(analysis_data$year < 2015),]
-
 data_2010_2014$apt_new[is.na(data_2010_2014$apt_new)] <- 0
 
-#cumulative sum of new appartments/month per district
+#Cumulative sum of new appartments/month per district
 data_2010_2014$AB_supply <- ave(data_2010_2014$apt_new, data_2010_2014$NID, FUN=cumsum)
 
-#dropping variables not needed
+#Dropping variables not needed for further analysis
 analysis_simple <- data_2010_2014[, c("NID", "neighbourhood", "year_month", "year", "month", "occup_rate", "AB_supply", "avg_inc", "ue_rate", "guests" )]
 
-#log Airbnb Apt Supply (simple model)
+#Log Airbnb apt supply and hotel occupancy rate
 analysis_simple$log_ABsupply <- log(analysis_simple$AB_supply)
+analysis_simple$occup_log <- log(analysis_simple$occup_rate)
 
-#creating subset
+#Create binary variable for Airbnb's official market entry in June 2011
+analysis_simple$marketentry <- ifelse ((analysis_simple$year_month < "Juni 2011"), 0, 1)
+
+

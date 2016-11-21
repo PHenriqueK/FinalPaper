@@ -10,6 +10,8 @@ linestretch: 1.5
 number_sections: TRUE
 fig_caption: TRUE
 inline_notes: TRUE
+csl: international-economic-journal.csl
+
 ---
 
 ```{r setup, include=FALSE}
@@ -95,7 +97,9 @@ Based on the extended literature review, two hypotheses will guide our thinking.
 #Data 
 Our investigation will utilize data from two different sources. First, we will use monthly tourism survey data from the Statistical Information System Berlin Brandenburg [@Brandenburg:2016aa] and the Regional Database Germany [@Germany:2015aa]. These data sets provide reliable information about the trends in tourism in Berlin between 2010 and 2014. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to have specific data for each of the ten districts in Berlin. We will use this geographic specificity to take a close look at the relationship between hotel occupancy rate and Airbnb supply in each of Berlin's districts. 
 
-Second, our paper uses data from *InsideAirbnb.com*. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. It includes listings from more than 15 cities in 16 countries, one of them being Berlin [@Airbnb:2016aa]. While using data directly extracted from Airbnb's website or API for our research would be preferable, it is not publicly available. However, the data extracted from *InsideAirbnb.com* is an appropriate alternative. We have detailed information on all Airbnb listings for Berlin between 2010 and 2014, including calendar data and review data. This allows us to conduct comparable time based analytics in concert with our hotel data. 
+Second, our paper uses data from *InsideAirbnb.com*. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. It includes listings from more than 15 cities in 16 countries, one of them being Berlin [@Airbnb:2016aa]. While using data directly extracted from Airbnb's website or API for our research would be preferable, it is not publicly available. However, the data extracted from *InsideAirbnb.com* is an appropriate alternative. We have detailed information on all Airbnb listings for Berlin between 2010 and 2014, including calendar data and review data. This allows us to conduct comparable time based analytics in concert with our hotel data. We further include a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market (http://thenextweb.com/insider/2011/07/06/airbnb-takes-on-europe-will-it-revolutionize-the-industry-again/).
+
+
 
 Our most significant data challenge is the absence of precise listing availability data during our period of interest. However, in keeping with the @zervas2016rise methodology, we will use review data as a proxy with which we can establish whether or not a listing was available in a given month. The paper acknowledges that while this is not ideal, Airbnb itself is unable to produce exact availability data due to the prevalence of "stale vacancies" on the site. That is, listings whose owners have not accurately updated their availability.
 
