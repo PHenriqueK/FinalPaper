@@ -102,18 +102,10 @@ In order to add to this body of research, and at the behest of @guttentag2015air
 
 > *H2: Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.*
 
-
-<<<<<<< HEAD
-Our data comes from three different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], and *InsideAirbnb.com* [@Airbnb:2016aa]. In order to conduct our analysis we neede to clean, merge and manipulate these data sets. 
-
-From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to have specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district.
-=======
 # Data & Variables
-
 Our data comes from three different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], and *InsideAirbnb.com* [@Airbnb:2016aa]. In order to conduct our analysis we needed to clean, merge and manipulate these data sets. 
 
 From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to use specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district.
->>>>>>> origin/master
 
 From the Regional Database of Germany, we collected data on the supply of hotel beds in each district in a given year. Unfortunately this data is only recorded annually. Hence, our analysis must assume that the number of beds in each hotel stay constant throughout the year. For our main dependent variable, we used data on the number of beds generally available in each district per day in a given year and the monthly data on the number of overnight stays from guests to compute a variable as a proxy for hotel occupancy (as a percentage).
 
@@ -128,6 +120,7 @@ The final data set covers 720 monthly obversations across tewlve districts in Be
 Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. 
 
 ```{r, echo=FALSE}
+
 # Creating end of year subset
 NID_Subset <- subset(analysis_simple, analysis_simple$month==12)
 
@@ -136,6 +129,10 @@ ggplot(NID_Subset, aes(x=year, y=AB_supply, group=NID)) +
     fte_theme () +
     labs(x="Year", y="Airbnb Listings", title="Growth of Airbnb Listings in Berlin (2010 - 2014)")
 
+ggplot(NID_Subset, aes(x=year, y=mean(log_ABsupply), group=NID)) +
+    geom_line(alpha=0.5, color="#c0392b") +
+    fte_theme () +
+    labs(x="Year", y="Airbnb Listings", title="Growth of Airbnb Listings in Berlin (2010 - 2014)")
 
 ```
 
@@ -172,7 +169,7 @@ Taking the arguments above into account, we use a region fixed effects to accoun
 
 Here, log *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
 
-#Results
+#Results & Discussion
 
 Table 1 compares the results for the different models. Column 1 is a simple model where we only include region and month-year fixed effects. The positive and highly significant effect of log Airbnb supply is a surprise. Hence, Column 2 includes economic control varibales to mitigate the above effect. 
 
@@ -206,9 +203,13 @@ stargazer(ModelA, ModelB, ModelC, covariate.labels = labels,
 ```
 
 
+In contrast to Zervas et al. (2014) we did not find that Airbnb had a significant negative impact on hotel revenue per available room when looking at Berlin. Several reasons migh
 
+First of all, they had used individual data for all hotels while we only had a computed value on hotel occupancy at the district level. Thus, we measure the impact of Airbnb supply on a much smaller scale and might have some sort of omitted variable bias. 
 
-#Discussion & Conclusions
+#Policy Implications & Conclusion
+
+The purpose of this paper was to measure the impact of Airbnb on the hotel industry Berlin.
 
 \newpage
 ##Bibliography

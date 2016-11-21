@@ -14,7 +14,7 @@ source('SBB_data_manipulation.R')
 
 listings <- Detailed_Listings 
 
-listings <- listings[, c("id", "neighbourhood_group_cleansed", "first_review", "last_review", "number_of_reviews")]
+listings <- listings[, c("id", "neighbourhood_group_cleansed", "first_review", "last_review", "number_of_reviews", "room_type")]
 
 #This deletes all Airbnb listings for which there exists no review data and which 
 listings <- listings[!(listings$number_of_reviews == 0), ] 
