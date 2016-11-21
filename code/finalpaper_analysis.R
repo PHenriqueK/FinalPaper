@@ -87,10 +87,10 @@ Panel.set <- plm.data(analysis_simple, index = c("NID", "year_month"))
 adf.test(Panel.set$log_ABsupply, k=2) #p-value <.05 -> no unit roots present
 
 #Model A: includes economic control variables and district dummy
-ModelA <- plm(occup_log ~ log_ABsupply + avg_inc + ue_rate, data=analysis_simple, index=c("NID", "year_month"), model="random")
+ModelA <- plm(occup_log ~ log_ABsupply + as.factor(NID) + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelA)
 
-#Model B: introduces year_month dummy
+#Model B: introduces year_month and neighbourhood dummy
 ModelB <- plm(occup_log ~ log_ABsupply + avg_inc + ue_rate+ as.factor(NID) + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="random")
 ModelB2 <- plm(occup_log ~ log_ABsupply + avg_inc + ue_rate+ as.factor(NID) + as.factor(year), data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelB)
@@ -103,6 +103,12 @@ summary(ModelC)
 #Model D: introduces a binary variable for Airbnb's official market entry
 ModelD <- plm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(NID) + as.factor(year), data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelD)
+
+#Model E: Model Mitte 
+subset_mitte <- subset(analysis_simple, analysis_simple$NID==1)
+ModelE <- plm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(year_month), data=subset_mitte, index="year_month", model="random")
+ModelE <- lm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(year), data=subset_mitte)
+summary(ModelE)
 
 # F-test for joint significance (p-value < .01 -> highly joint significance)
 linearHypothesis(ModelD, c("log_ABsupply", "log_ABsupply:AB_supply = 0"), test="F")

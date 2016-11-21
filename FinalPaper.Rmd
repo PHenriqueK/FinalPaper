@@ -121,11 +121,11 @@ From the Regional Database of Germany, we collected data on the supply of hotel 
 
 From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or rooms, for Berlin from August, 2008 until October, 2015. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. Amongst 92 variables for each listing covering topics ranging from room price to information on the host, the data includes (1) the neighbourhood of each listing, (2) the date that an Airbnb host signed up, and (3) the date of the first review of each listing. We further include a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market (http://thenextweb.com/insider/2011/07/06/airbnb-takes-on-europe-will-it-revolutionize-the-industry-again/). 
 
-Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directily available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month later to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data. This is because owners do not accurately update their listings' availability. 
+Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directily available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month before to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data. This is because owners do not accurately update their listings' availability. 
 
 The final data set covers 720 monthly obversations across tewlve districts in Berlin and covers the time period between 2010 and 2014.
 
-# Methodology & Empirical Anlysis
+# Methodology & Analysis
 ## Descriptive Analysis
 Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. 
 
@@ -140,7 +140,6 @@ ggplot(NID_Subset, aes(x=year, y=AB_supply, group=NID)) +
 
 
 ```
-
 
 Upon plotting Airbnb supply against hotel room occupancy, we were surprised to see a clear positive correlation. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. @zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We will incorporate a similar statistic in our final analysis, as tourism in Berlin has increased dramatically in recent years. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that this increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
 
@@ -165,7 +164,35 @@ ggplot(analysis_simple, aes(x=AB_supply, y=occup_rate)) +
 ```
 
 ##Inferential Analysis
-Thus for further analysis of the data, we included the number of guests per month for each district. 
+Following @zervas2013rise, our analysis takes advantage of the fact that Airbnb offically entered the German market in June 2011 with the acquisition of Accoleo, and also grew differently depending on the neighbourhood. By introducing a binary variable which is equal to one for all observations after Airbnb's market entry in Berlin and interacting that variable with all regressors in our model, we account for all the changes in hotel occupancy rates before and after Airbnb's market entry in Berlin, i. e. the dicontinuity at market entry. 
+
+Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis will focus on hotel occupancy rates. Also unlike the model used by the authors, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns. Instead, we propose the use of a Regression Discontinuity Model (RDM) [@jacob2012practical]. 
+
+Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occpuancies main specification for our proposal would look like this:
+
+> (1) ${\log OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+Here, log *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
+
+#Results
+
+Table 1 compares the results for the different models. Column 1 is a simple model where we only include region and month-year fixed effects. The positive and highly significant effect of log Airbnb supply is a surprise. Hence, Column 2 includes economic control varibales to mitigate the above effect. 
+
+Our main specification takes into account that the effect of Airbnb is likely best observed once it has reached a critical mass. However, even when introducing an interaction between log Airbnb supply and the absolute level of Airbnb listings we find that Airbnb supply has a highly significant positive effect on hotel occupancy, with a p-value on the .01 % level. 
+
+Here, we would try to account for the fact that airbnb supply is more complicated than we have so far defined it. We would do this be mimicking Zervas's methodology. So, we would introduce review data, and redefine airbnb supply to include our best inference as to whether Airbnb was available at a given time based off of those reviews. 
+
+Further methods of data exploration
+
+#To do that, we would define supply as the number of airbnb's available in a given apartment in a given month. This would be calculated by looking at the date that a host signed up for Airbnb and the date of the individual reviews. Upon the sign up date, the listing would be assigned a "life period" of 6 months, which would then be renewed upon each subsequent review. If a listing exceeds its life period without a review, then we assume that it is no longer available. However, once it recieves another review it would then be considered available again for another X months. 
+
+> We then want to control for unobservables that evolve following some trend that can differ from a region to another. This is often done in DD papers by including a linear or a quadratic region-specific time trend. In Zervas et al. (2014), they only report estimates with the quadratic city-specific trend since their results were apparently not really affected by this choice. 
+
+
+how listing’s characteristics matter?
+
+Airbnb lists all sort of accommodations, from a house or an apartment to shared rooms. This has an influence on how closely they can replace a hotel room, and thus have a different impact on hotel occupancy. We thus excluded all listings categorized as ”shared room”.
+
 
 ``` {r, results='asis'}
 
@@ -180,19 +207,8 @@ stargazer(ModelA, ModelB, ModelC, covariate.labels = labels,
 
 ```
 
-Even when including guests in our model we find that Airbnb supply has a highly significant positive effect on hotel occupancy, with a p-value on the .01% level. This surprised us as well, and warrants further exploration of potential explanations in our final analysis. 
 
-Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis will focus on hotel occupancy rates. Also unlike the model used by the authors, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns. Instead, we propose the use of a Regression Discontinuity Model (RDM) [@jacob2012practical]. 
 
-By introducing a binary variable which is equal to one for all observations after Airbnb's market entry in Berlin and interacting that variable with all regressors in our model, we account for all the changes in hotel occupancy rates before and after Airbnb's market entry in Berlin, i. e. the dicontinuity at market entry. 
-
-Taking the arguments above into account, our main specification for our proposal would look like this:
-
-> (1) ${\log OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
-
-Here, log *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
-
-#Results
 
 #Discussion & Conclusions
 
