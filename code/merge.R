@@ -8,7 +8,7 @@
 ##########################
 
 #Dynamical link
-source('airbnb_data_manipulation.R')
+source('airbnb_data_manipulation_review.R')
 
 #Merge data GENE
 FSO_SBB1 <- merge(SBB_2010_2015_merge, GENESIS_merge, by=c("NID", "year"), all.x = TRUE, all.y = TRUE)

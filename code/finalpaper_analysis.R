@@ -89,7 +89,6 @@ adf.test(Panel.set$log_ABsupply, k=2) #p-value <.05 -> no unit roots present
 #Model A: includes economic control variables and district dummy
 ModelA <- plm(occup_log ~ log_ABsupply + avg_inc + ue_rate, data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelA)
-kable(ModelA)
 
 #Model B: introduces year_month dummy
 ModelB <- plm(occup_log ~ log_ABsupply + avg_inc + ue_rate+ as.factor(NID) + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="random")

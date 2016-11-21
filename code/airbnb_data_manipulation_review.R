@@ -14,21 +14,21 @@ source('SBB_data_manipulation.R')
 
 listings <- Detailed_Listings 
 
-listings <- listings[, c("id", "host_id", "host_since", "neighbourhood_group_cleansed", "first_review", "last_review")]
+listings <- listings[, c("id", "neighbourhood_group_cleansed", "first_review", "last_review", "number_of_reviews")]
 
-#This deletes 5 Airbnb listings for which there are no dates at all
-listings <- listings[!(listings$host_since == "" | is.na(listings$host_since)), ] 
+#This deletes all Airbnb listings for which there exists no review data and which 
+listings <- listings[!(listings$number_of_reviews == 0), ] 
 
-listings$host_since <- as.Date(listings$host_since,"%Y-%m-%d")
+#Computing listing date (6 months prior to first review)
+listings$listingdate <- as.Date(as.yearmon(as.Date(listings$first_review)) - .5)
 
-
-
-#Splitting host_since date up into its elements
-listings <- mutate(listings, date = ymd(listings$host_since), host_since_day = day(date), 
-       host_since_month = month(date), host_since_year = year(date))
+#Splitting listing date up into its elements
+listings$listingdate <- as.Date(listings$listingdate,"%Y-%m-%d")
+listings <- mutate(listings, date = ymd(listings$listingdate), listing_day = day(date), 
+                   listing_month = month(date), listing_year = year(date))
 
 #Creating a new yy-mm variable
-listings$year_month <- as.yearmon(listings$host_since, "%Y-%m")
+listings$year_month <- as.yearmon(listings$listingdate, "%Y-%m")
 
 #Creating a counting variable
 listings$count <- 1
@@ -52,7 +52,7 @@ reviews <- Airbnb_Reviews
 
 reviews$date <- as.Date(reviews$date,"%Y-%m-%d")
 
-#Splitting host_since date up into its elements
+#Splitting reviews date up into its elements
 reviews <- mutate(reviews, date = ymd(reviews$date), rev_day = day(date), rey_month = month(date), rev_year = year(date))
 
 #Creating a new yy-mm variable
@@ -70,9 +70,6 @@ agg_reviews <- agg_reviews[which(agg_reviews$rev_year < 2015),]
 birthdate <- listings[, c("id", "year_month")]
 lifecourse <- merge(agg_reviews, birthdate, by=c("id"), all.x = TRUE)
 names(lifecourse) <- c("id", "rev_year_month", "rev_year", "new_reviews", "listingdate")
-
-lifecourse$cycle <- as.yearmon(lifecourse$rev_year_month) - .5
-
 
 
 ########################################
