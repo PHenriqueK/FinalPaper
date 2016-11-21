@@ -73,45 +73,43 @@ theme(plot.margin = unit(c(0.35, 0.2, 0.3, 0.35), "cm"))
 }
 
 ```
-#Abstract
+# Abstract
 
-#Introduction
+# Introduction
+
+Airbnb is a relatively young company that has revolutionized the accomodation industry in much the same way that Uber has revolutionized transportation. 
+
 The effects of Airbnb on the Berlin housing market have recently been the subject of a great deal of scrutiny. In 2014, the city passed a law that forbade renting out entire apartments to tourists on Airbnb. This came in response to an unprecedented 56 percent rise in rents in Berlin between 2009 and 2014, for which Airbnb and other online hosting platforms received some of the blame [@France-Presse:2016aa]. The city's law was widely welcomed by Berliners hoping to slow the forces of gentrification, but it was also welcomed by another Airbnb victim in Berlin; the hotel industry. 
 
-While Berliners fought tourists for apartments, hotels were quietly fighting Airbnb for tourists. Airbnb represents an unprecedented challenge for the long-time incumbents, whose average price of 80 euros per night cannot compete with the average Airbnb price of 55 euros per night [@Alsino-Skowronnek:2015aa]. To make matters worse, the rise of Berlin as the place to be happened to coincide with the rise of Airbnb as the place to stay. This prevented the hotels of Berlin from fully realizing profits that were, in their minds, rightfully theirs. Airbnb, however, claims that their service is complementary, since 77 percent of Berlin's Airbnb listings are outside of the main hotel districts [@Airbnb:2015aa]. 
+While Berliners fought tourists for apartments, hotels were quietly fighting Airbnb for tourists. Airbnb represents an unprecedented challenge for the long-time incumbents, whose average price of 80 euros per night cannot compete with the average Airbnb price of 55 euros per night [@Alsino-Skowronnek:2015aa]. 
+
+To make matters worse, the rise of Berlin as the place to be happened to coincide with the rise of Airbnb as the place to stay. This prevented the hotels of Berlin from fully realizing profits that were, in their minds, rightfully theirs. Airbnb, however, claims that their service is complementary, since 77 percent of Berlin's Airbnb listings are outside of the main hotel districts [@Airbnb:2015aa]. 
 
 However, a paper by @zervas2016rise found that the rise of Airbnb had a negative effect on hotel revenue in the state of Texas. This shows that, while Airbnb may be complementary, they also compete with the incumbent hotel industry. In this paper we will seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin. 
 
 # Literature Review
-
-## Airbnb Literature
 While the literature on the effect of Airbnb on hotels is quite limited, there is a diverse body of literature available on different aspects of Airbnb's business. In @zervas2015first, the authors explore user ratings on Airbnb and TripAdvisor. They find that the average user rating of Airbnb is significantly higher than that of the average hotel on TripAdvisor, 4.5 out of 5 stars compared to 3.8 out of 5 stars, respectively. They theorize that Airbnb hosts, being more entrepreneurial than their hotelier competitors, go above and beyond to ensure that they recieve good reviews that bolster their individual "brand". Along similar lines, @gutt2015sharing investigated how Airbnb hosts change their prices in response to their first review. They found that increased "rating visibility" causes hosts to raise their prices by an average of 2.69 euros. 
 
-Like Uber, Airbnb has also been widely praised for providing a more personalized experience for consumers in an industry that they might not have expected to find it before. 
+In Berlin, much literature and discussion has focused on the impact of Airbnb's market entry on rents in the city. @schafer2016misuse, for example, found that 5,555 residential apartments are currently being misused for Airbnb in Berlin. However, as the *Zweckentfremdungsverbot* (Airbnb misuse law) came into effect this year, the main focus of this issue is likely to be enforcement going forward. 
 
-A working paper by @storsmotives indicates that the motives for a tourist to use Airbnb rather than a hotel are both monetary and otherwise. In fact, they found that guests' expectations of having a more authentic, personal experience during their stay were just as important as the monetary aspect. This suggests that the hotel industry in Berlin is not only being undercut in pricing, but also outclassed in the experience they provide.This
+Like Uber, Airbnb has also been widely praised for providing a more personalized experience for consumers in an industry that they might not have expected to find it before. In both @yannopoulou2013user and @guttentag2015airbnb, the authors find that the desire for a personalized user experience has played a role in the rise of Airbnb and has changed the very nature of the accomodation and tourism industry. A working paper by @storsmotives shows that this trend extends to Berlin, and indicates that the motives for a tourist to use Airbnb rather than a hotel are both monetary and otherwise. In fact, the Stors & Kagermeier found that guests' expectations of having a more authentic, personal experience during their stay were just as important as their monetary concerns. This suggests that the hotel industry in Berlin is not only being undercut in pricing, but also outclassed in the experience they provide.
 
-Some literature does exist on Airbnb's entry into Berlin, however much of this is focused on the impact on rents in the city. @schafer2016misuse, for example, found that 5,555 residential apartments are currently being misused for Airbnb in Berlin. However, as the *Zweckentfremdungsverbot* (Airbnb misuse law) came into effect this year, the main focus of this issue is likely to be enforcement going forward. 
+In @guttentag2015airbnb, the author argues that while many points discounting Airbnb's ability to compete with the traditional accomodation industry are valid, there is still no reason to completely discount the young disruptor's impact. Airbnb will probably never completely replace the hotel industry, but it is already large enough to have an impact nevertheless. Indeed, Guttentag estimates that Airbnb sold about 15 million room nights in 2012, which would make its footprint on the industry similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands. Guttentag concludes his paper with some recommendations for future research on Airbnb, and highlights the need to investigate the impact of Airbnb on hotel occupancy rates and room prices. 
 
-there is one prominent paper that helped inspire this investigation. In their paper, @zervas2016rise used a difference in differences method (DID) to measure the impact that Airbnb's presence had on Texas hotel revenue, and how this impact differed by region and over time. They found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue. This effect varied widely by region, however. Austin, for example showed a 8 to 10 percent impact on hotel revenue. Zervas et al. also went on to investigate the impact of Airbnb's presence on different types of hotels and how that presence may effect hotel pricing models. They found that hotels with lower prices are more affected than higher priced hotels, and that Airbnb has significantly hindered hotels' ability to raise prices during high demand periods. 
+Along those lines, there is one prominent paper that helped inspire this investigation. In their paper, @zervas2016rise used a difference in differences method (DID) to measure the impact that Airbnb's presence had on Texas hotel revenue, and how this impact differed by region and over time. They found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue. This effect varied widely by region, however. Austin, for example showed a 8 to 10 percent impact on hotel revenue. Zervas et al. also went on to investigate the impact of Airbnb's presence on different types of hotels and how that presence may effect hotel pricing models. They found that hotels with lower prices are more affected than higher priced hotels, and that Airbnb has significantly hindered hotels' ability to raise prices during high demand periods. 
 
-
-## Tourism Literature
-In terms of our focus, 
-
-
-
-
-Based on the extended literature review, two hypotheses will guide our thinking. 
+In order to add to this body of research, and at the behest of @guttentag2015airbnb, our investigation will focus on the effect of Airbnb on hotel occupancy rates in Berlin. Specifically, two hypotheses will guide our thinking. 
 
 > *H1: The higher the Airbnb supply in a given district in Berlin, the lower the hotel occupancy rate will be in that same district.*
 
 > *H2: Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.*
 
-#Data & Variables
 
-Our data comes from three different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], and *InsideAirbnb.com* [@Airbnb:2016aa]. In order to conduct our analysis we neede to clean, merge and manipulate these data sets. 
-From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to have specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district.
+# Data & Variables
+
+Our data comes from three different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], and *InsideAirbnb.com* [@Airbnb:2016aa]. In order to conduct our analysis we needed to clean, merge and manipulate these data sets. 
+
+From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to use specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district.
 
 From the Regional Database of Germany, we collected data on the supply of hotel beds in each district in a given year. Unfortunately this data is only recorded annually. Hence, our analysis must assume that the number of beds in each hotel stay constant throughout the year. For our main dependent variable, we used data on the number of beds generally available in each district per day in a given year and the monthly data on the number of overnight stays from guests to compute a variable as a proxy for hotel occupancy (as a percentage).
 
@@ -121,8 +119,8 @@ Our most significant methodological challenge is the absence of precise listing 
 
 The final data set covers 720 monthly obversations across tewlve districts in Berlin and covers the time period between 2010 and 2014.
 
-#Methodology & Empirical Anlysis
-##Descriptive Analysis
+# Methodology & Empirical Anlysis
+## Descriptive Analysis
 Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. 
 
 ```{r, echo=FALSE}
