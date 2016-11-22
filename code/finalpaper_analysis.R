@@ -26,7 +26,7 @@ analysis_simple <- data_2010_2014[, c("NID", "neighbourhood", "year_month", "yea
 analysis_simple$NID <- as.factor(analysis_simple$NID)
 
 #Group data
-analysis_simple <- group_by(analysis_simple, NID, year, year_month)
+#analysis_simple <- group_by(analysis_simple, NID, year, year_month)
 
 #Log Airbnb apt supply and hotel occupancy rate
 analysis_simple$log_ABsupply <- log(analysis_simple$AB_supply)
@@ -34,6 +34,7 @@ analysis_simple$log_ABsupply[which(!is.finite(analysis_simple$log_ABsupply))] <-
 analysis_simple$occup_log <- log(analysis_simple$occup_rate)
 
 #Create binary variable for Airbnb's official market entry in June 2011
+analysis_simple$year <- as.numeric(analysis_simple$year)
 analysis_simple$marketentry <- ifelse ((analysis_simple$year_month < "Juni 2011"), 0, 1)
 
 ##Descriptice Statistics
@@ -97,18 +98,12 @@ summary(ModelB)
 summary(ModelB2)
 
 #Model C: introduces an interaction between log_airbnb supply and the absolute level of airbnb supply
-ModelC <- plm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + avg_inc + ue_rate+ as.factor(NID) + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="random")
+ModelC <- plm(occup_log ~ log_ABsupply*AB_supply + avg_inc + ue_rate+ as.factor(NID) + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelC)
 
 #Model D: introduces a binary variable for Airbnb's official market entry
-ModelD <- plm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(NID) + as.factor(year), data=analysis_simple, index=c("NID", "year_month"), model="random")
+ModelD <- plm(occup_log ~ log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(NID) + year, data=analysis_simple, index=c("NID", "year_month"), model="random")
 summary(ModelD)
-
-#Model E: Model Mitte 
-subset_mitte <- subset(analysis_simple, analysis_simple$NID==1)
-ModelE <- plm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(year_month), data=subset_mitte, index="year_month", model="random")
-ModelE <- lm(occup_log ~ log_ABsupply + log_ABsupply*AB_supply + marketentry + avg_inc + ue_rate + as.factor(year), data=subset_mitte)
-summary(ModelE)
 
 # F-test for joint significance (p-value < .01 -> highly joint significance)
 linearHypothesis(ModelD, c("log_ABsupply", "log_ABsupply:AB_supply = 0"), test="F")
