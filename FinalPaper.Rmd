@@ -6,17 +6,16 @@ date: "December 9, 2016"
 output: pdf_document
 toc: FALSE
 bibliography: Bibliography.bib
-linestretch: 1.5
 number_sections: TRUE
 fig_caption: TRUE
 inline_notes: TRUE
+linestretch: 1.3
 csl: international-economic-journal.csl
 
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, dev = 'pdf')
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(dev = 'pdf')
 
 # Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
@@ -28,7 +27,36 @@ library(grid)
 library(scales)
 library(RColorBrewer)
 library(stargazer)
+library(captioner)
+library(ggplot2)
+library(car)
+library(plm)
+library(lubridate)
+library(knitr)
+library(pastecs)
+library(Hmisc)
+library(curl)
+library(rio)
+library(stringr)
+library(plyr)
+library(xml2)
+library(DataCombine)
+library(tidyr)
+library(data.table)
+library(dplyr)
+library(zoo)
+library(xtable)
+library(texreg)
+library(stargazer)
+library(foreign)
+library(gplots)
 
+figcap <- captioner(prefix = "Figure", auto_space = TRUE, levels = 1, type = NULL)
+tablecap <- captioner(prefix = "Table", auto_space = TRUE, levels = 1, type = NULL)
+
+```
+
+```{r, cache=TRUE}
 # Dynamical Link to Data/Packages R script file (takes some time!)
 source("code/finalpaper_analysis.R")
 
@@ -73,9 +101,11 @@ theme(plot.margin = unit(c(0.35, 0.2, 0.3, 0.35), "cm"))
 }
 
 ```
+
 # Abstract
 
-# Introduction
+\newpage
+#Introduction
 
 Airbnb is a young company that has revolutionized the accomodation industry in much the same way that Uber has revolutionized transportation. It is an online platform that allows "hosts" to share their home or a rental home with travelers. For hosts, using Airbnb can be a valuable source of extra income. For guests, Airbnb provides accomodations that allows travelers to both save money and have a more authentic experience during their stay. Airbnb guests often remark that they interacted with their hosts and felt more like a local than a tourist. Indeed, Airbnb's recent "Don't Go There, Live There" advertising campaign reflects their philosophy in reshaping the accomodation industry. 
 
@@ -105,111 +135,122 @@ In order to add to this body of research, and at the behest of @guttentag2015air
 # Data & Variables
 Our data comes from three different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], and *InsideAirbnb.com* [@Airbnb:2016aa]. In order to conduct our analysis we needed to clean, merge and manipulate these data sets. 
 
-From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to use specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district.
+From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to use specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district. As a proxy for the effect of Airbnb supply the hotel industry, we use the number of overnights in a given month and district. 
 
-From the Regional Database of Germany, we collected data on the supply of hotel beds in each district in a given year. Unfortunately this data is only recorded annually. Hence, our analysis must assume that the number of beds in each hotel stay constant throughout the year. For our main dependent variable, we used data on the number of beds generally available in each district per day in a given year and the monthly data on the number of overnight stays from guests to compute a variable as a proxy for hotel occupancy (as a percentage).
+From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or rooms, for Berlin from August, 2008 until October, 2015. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. Amongst 92 variables for each listing covering topics ranging from room price to information on the host, the data includes (1) the neighbourhood of each listing, (2) the date that an Airbnb host signed up, and (3) the date of the first review of each listing. We further include a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market [@TNW:2011aa]. 
 
-From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or rooms, for Berlin from August, 2008 until October, 2015. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. Amongst 92 variables for each listing covering topics ranging from room price to information on the host, the data includes (1) the neighbourhood of each listing, (2) the date that an Airbnb host signed up, and (3) the date of the first review of each listing. We further include a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market (http://thenextweb.com/insider/2011/07/06/airbnb-takes-on-europe-will-it-revolutionize-the-industry-again/). 
-
-Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directily available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month before to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data. This is because owners do not accurately update their listings' availability. 
+Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directily available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. Given this approach we have to exclude 3,153 listings that did not receive at least one review in the reporting period. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month before to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data. This is because owners do not accurately update their listings' availability. 
 
 The final data set covers 720 monthly obversations across tewlve districts in Berlin and covers the time period between 2010 and 2014.
 
 # Methodology & Analysis
 ## Descriptive Analysis
-Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. 
+Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
 
-# Creating end of year subset
+ggplot(analysis_simple, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    fte_theme() +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+
+```
+
+```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
+
 NID_Subset <- subset(analysis_simple, analysis_simple$month==12)
 
-ggplot(NID_Subset, aes(x=year, y=AB_supply, group=NID)) +
+ggplot(NID_Subset, aes(x=year, y=log_ABsupply, group=neighbourhood, colour=neighbourhood)) +
     geom_line(alpha=0.5, color="#c0392b") +
-    fte_theme () +
-    labs(x="Year", y="Airbnb Listings", title="Growth of Airbnb Listings in Berlin (2010 - 2014)")
-
-ggplot(NID_Subset, aes(x=year, y=mean(log_ABsupply), group=NID)) +
-    geom_line(alpha=0.5, color="#c0392b") +
-    fte_theme () +
-    labs(x="Year", y="Airbnb Listings", title="Growth of Airbnb Listings in Berlin (2010 - 2014)")
-
-```
-
-Upon plotting Airbnb supply against hotel room occupancy, we were surprised to see a clear positive correlation. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. @zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We will incorporate a similar statistic in our final analysis, as tourism in Berlin has increased dramatically in recent years. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that this increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
-
-```{r, echo=FALSE}
-
-ggplot(analysis_simple, aes(x=log_ABsupply, y=occup_log)) +
-    geom_point(alpha=0.5, color="#c0392b") +
-    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
     fte_theme() +
-    labs(x="Airbnb Listings", y="Hotel Occupance Rate", title="Effect of Airbnb Listings on Hotel Occupancy Rates (2010 - 2014)")
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
 
 ```
 
-```{r, echo=FALSE}
+ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
 
-ggplot(analysis_simple, aes(x=AB_supply, y=occup_rate)) +
-    geom_point(alpha=0.5, color="#c0392b") +
-    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
-    fte_theme() +
-    labs(x="Airbnb Listings", y="Hotel Occupance Rate", title="Effect of Airbnb Listings on Hotel Occupancy Rates (2010 - 2014)")
 
-```
+
+@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. In lack of a comparable control observation, we will incorporate a time specific trend to account for unobserved heterogeneity, as tourism in Berlin has increased dramatically in recent years. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that this increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
 
 ##Inferential Analysis
 Following @zervas2013rise, our analysis takes advantage of the fact that Airbnb offically entered the German market in June 2011 with the acquisition of Accoleo, and also grew differently depending on the neighbourhood. By introducing a binary variable which is equal to one for all observations after Airbnb's market entry in Berlin and interacting that variable with all regressors in our model, we account for all the changes in hotel occupancy rates before and after Airbnb's market entry in Berlin, i. e. the dicontinuity at market entry. 
+
+> The key identification assumption we have to make to support a causal interpretation of this DD estimate is that there are no unobserved, time-varying, city-specific factors that are correlated with both Airbnb entry and hotel room revenue.Stated differently, we assume that unobserved factors that could potentially jointly affect both Airbnb adoption and hotel room revenue do not systematically vary both between different cities and over time.
 
 Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis will focus on hotel occupancy rates. Also unlike the model used by the authors, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns. Instead, we propose the use of a Regression Discontinuity Model (RDM) [@jacob2012practical]. 
 
 Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occpuancies main specification for our proposal would look like this:
 
-> (1) ${\log OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+> (1) ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
-Here, log *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
+> (2) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+Here, *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
+
+To decide whether to use a fixed or random effects model, we ran a Hausman test, since a regular OLS regression does not consider heterogeneity across groups or time (SOURCE: Green, 2008). It tests if the unique erros are or are not correlated with the regressors. Performing the test we get a p-value of 1 (check whether this is really true). Thus, we reject the null hypothesis that they are not. The Breusch-Pagan Lagrange multiplier test confirms our results, as there is a panel effect, i.e. a significant difference across neighbourhoods (p-value = 0.01).
 
 #Results & Discussion
+Table 1 compares the results for the different models. 
 
-Table 1 compares the results for the different models. Column 1 is a simple model where we only include region and month-year fixed effects. The positive and highly significant effect of log Airbnb supply is a surprise. Hence, Column 2 includes economic control varibales to mitigate the above effect. 
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 
-Our main specification takes into account that the effect of Airbnb is likely best observed once it has reached a critical mass. However, even when introducing an interaction between log Airbnb supply and the absolute level of Airbnb listings we find that Airbnb supply has a highly significant positive effect on hotel occupancy, with a p-value on the .01 % level. 
+analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
 
-Here, we would try to account for the fact that airbnb supply is more complicated than we have so far defined it. We would do this be mimicking Zervas's methodology. So, we would introduce review data, and redefine airbnb supply to include our best inference as to whether Airbnb was available at a given time based off of those reviews. 
+#Model I: 
+ModelI <- lm(log_nights ~ log_ABsupply + NID + factor_ym, data=analysis_simple)
+
+#Model II: 
+ModelII <- lm(log_nights ~ log_ABsupply + log_inc + ue_rate + NID + factor_ym, data=analysis_simple)
+
+#Model III: 
+ModelIII <- lm(log_nights ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + NID + factor_ym, data=analysis_simple)
+
+#Model C: introduces an interaction between log_airbnb supply and the absolute level of airbnb supply
+ModelC <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + NID + factor_ym, data=analysis_simple, index=c("NID", "factor_ym"), model="random")
+
+stargazer(ModelI, ModelII, ModelIII, ModelC, 
+          title="Effect of Airbnb Supply on Hotels in Berlin (2010 - 2014)", 
+          digits = 2, 
+          covariate.labels = c("log Airbnb listings", "Airbnb listings", "Log*Level", "Average HH income (log)", "Unemployment rate"), 
+          omit = c("NID", "factor_ym"),           
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
+          dep.var.labels = c("Overnight", "Occupancy Rate"),
+          no.space = TRUE,
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          font.size = 'small',
+          add.lines = list(c('District FE?', rep('No', 4))),
+          align = FALSE,
+          type = "latex")
+
+```
+
+Column 1 is a simple model where we only include region and month-year fixed effects to account for changes in time in variation across regions. As stated earlier, we interpret the coefficient *$\beta$* of *$\log Airbnb supply$* as indicative of Airbnb listings being a substitute for hotel rooms, especially in neighbourhoods with a high Airbnb market penetration. We estimate the coefficient *$\beta$* = 0.02, or equivalently, a 10 per cent increase in Airbnb listings is associated with a statistically significant 2 per cent (p < 0.01) increase in monthly hotel overnight stays. As before, the positive effect of an increasing number of Airbnb listings seems counter-intuitive. Hence, Column 2 includes economic control varibales to mitigate the above effect. It introduces observations for the yearly unemployment rate and the yearly log of average household income varying differently across neighbourhoods. We then want to control for unobservables that evolve following some trend that can differ from one neighbourhood to another. This is done by including a neighbourhood-specific time trend. The results are presented in Column 3. 
+
+By using the number of overnights per month and district as dependent variable we imply a constant number of beds over the course of the explored time period. This is certainly not the case, as capacity in Berlin hotels grew by xx% from 2010 to 2014. To account for the increased capacity we compute the theoretical hotel occupancy rate. From the Regional Database of Germany, we collected data on the supply of hotel beds in each district in a given year. Unfortunately this data is only recorded annually. Hence, our analysis must assume that the number of beds in each hotel stay constant throughout the year. For our main dependent variable, we used data on the number of beds generally available in each district per day in a given year and the monthly data on the number of overnight stays from guests to compute a variable as a proxy for hotel occupancy (as a percentage). The results are presented in table 2. 
+
+Our new main specification takes further into account that the effect of Airbnb is likely best observed, once it has reached a critical threshold or market penetration. However, even when introducing an interaction between log Airbnb supply and the absolute level of Airbnb listings we find that Airbnb supply has a highly significant positive effect on hotel occupancy, with a p-value on the .01 % level. 
+
+Whilst the effect of Airbnb listings seems to be significant in all our specifications, the expected negative effect is in fact positive, even when controlling for economic heterogeneity. 
 
 Further methods of data exploration
 
-#To do that, we would define supply as the number of airbnb's available in a given apartment in a given month. This would be calculated by looking at the date that a host signed up for Airbnb and the date of the individual reviews. Upon the sign up date, the listing would be assigned a "life period" of 6 months, which would then be renewed upon each subsequent review. If a listing exceeds its life period without a review, then we assume that it is no longer available. However, once it recieves another review it would then be considered available again for another X months. 
-
 > We then want to control for unobservables that evolve following some trend that can differ from a region to another. This is often done in DD papers by including a linear or a quadratic region-specific time trend. In Zervas et al. (2014), they only report estimates with the quadratic city-specific trend since their results were apparently not really affected by this choice. 
-
 
 how listing’s characteristics matter?
 
 Airbnb lists all sort of accommodations, from a house or an apartment to shared rooms. This has an influence on how closely they can replace a hotel room, and thus have a different impact on hotel occupancy. We thus excluded all listings categorized as ”shared room”.
-
-
-``` {r, results='asis'}
-
-#Create clean labels
-labels <- c('Log Airbnb supply', 'Average income/district',
-            'Unemployment rate', 'NID',
-            '4th Ranked School', '(Intercept)')
-
-stargazer(ModelA, ModelB, ModelC, covariate.labels = labels,
-                     title = 'Estimates of the Impact of Airbnb on hotel room occupancy, with different controls.',
-                     digits = 2, type = 'latex', header = FALSE)
-
-```
-
 
 In contrast to Zervas et al. (2014) we did not find that Airbnb had a significant negative impact on hotel revenue per available room when looking at Berlin. Several reasons migh
 
 First of all, they had used individual data for all hotels while we only had a computed value on hotel occupancy at the district level. Thus, we measure the impact of Airbnb supply on a much smaller scale and might have some sort of omitted variable bias. 
 
 #Policy Implications & Conclusion
-
-The purpose of this paper was to measure the impact of Airbnb on the hotel industry Berlin.
+The purpose of this paper was to measure the impact of Airbnb on the hotel industry Berlin. Whilst a paper by ZERVAS found a negative impact of Airbnb supply on the hotel industry in Texas, we could not replicate this result. In fact, we found a positive highly significant effect of Airbnb supply on both, overnight stays and hotel occupancy rates accross all districts between 2010 and 2014. From our point of view, this might have different reasons. First, the observation period. Second, Airbnb accomodations and hotel rooms are complementary goods, not substitutes. Last, Zervas had a much higher data richness using data on hotel level (less aggregated) 
 
 \newpage
 ##Bibliography

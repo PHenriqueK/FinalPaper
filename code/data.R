@@ -37,6 +37,8 @@ library(zoo)
 library(xtable)
 library(texreg)
 library(stargazer)
+library(foreign)
+library(gplots)
 
 #Loading Data from "Regionaldatenbank Deutschland"
 GENESIS_2010 <- read.csv("data/GENESIS_2010.csv", sep=";", quote="\"", stringsAsFactors = FALSE)
