@@ -1,5 +1,5 @@
 ---
-title: "The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach"
+title: "The Airbnb Effect & The Berlin Hotel Industry: A Regression Discontinuity Approach"
 author: "Daniel J Murphy & Paulo H Kalkhake"
 date: "2 December 2016"
 output: 
@@ -22,21 +22,39 @@ This is an R Markdown presentation. Markdown is a simple formatting syntax for a
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
-## Slide with Bullets
+## Airbnb in Berlin
 
-- What is your research question? Why is it interesting?
+- According to Airbnb, more than 20,000 Berliners have hosted travelers via Airbnb in the past year. 
 
-- What data did you gather/methods did you use?
+- In that same period, more than half a million guests have used Airbnb in Berlin.
 
-- What are your results?
+- Airbnb also reports that the average Berlin host's rating is 4.6 out of 5 stars, and that staying with Airbnb makes guests more likely to return to Berlin. 
 
-- Engagingly present your research question and key findings to a general academic audience (fellow students).
+Graphic?
 
-## Slide with R Output
+## Recent Literaure
 
-```{r cars, echo = TRUE}
-summary(cars)
-```
+- *Rents and Zweckentfremdungsverbot:* Schafer et al found that 5,555 residential apartments in Berlin are currently being misused for Airbnb. 
+
+- *But What About The Hotel Industry?* Guttentag estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
+
+- *Airbnb Messes with Texas:* Zervas et al. found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
+
+## Hypotheses
+
+- *H1:* The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.
+
+- *H2:* The Airbnb effect is likely the strongest once it has reached a critical mass.
+
+- *H3:* Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.
+
+## Data & Variables
+
+- We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
+
+- *Occupancy Rate:*
+
+- *Airbnb Supply:*
 
 ## Slide with Plot
 
