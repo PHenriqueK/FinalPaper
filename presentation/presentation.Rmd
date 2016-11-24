@@ -79,4 +79,10 @@ ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \vareps
 
 ## Results & Policy Implications
 
+Policy Implications
+
+> (1) Unlike Zervas et al., we did not find a significant negative effect of Airbnb on the hotel industry. 
+
+> (2) 
+
 
