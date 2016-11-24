@@ -1,5 +1,5 @@
 ---
-title: "The Airbnb Effect & The Berlin Hotel Industry: A Regression Discontinuity Approach"
+title: "Airbnb vs. Hotels in Berlin: A Regression Discontinuity Approach"
 author: "Daniel J Murphy & Paulo H Kalkhake"
 date: "2 December 2016"
 output: 
@@ -15,12 +15,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```
-
-## R Markdown
-
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
 ## Airbnb in Berlin
 
@@ -50,15 +44,31 @@ Graphic?
 
 ## Data & Variables
 
-- We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
+We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
 
-- *Occupancy Rate:*
+Our analysis will focus on the following variables derived from this data. 
 
-- *Airbnb Supply:*
+- *Occupancy Rate:* The number supply of beds in a given district divided by the number of overnight stays in that district in a given month. 
 
-## Slide with Plot
+- *Airbnb Supply:* The number of listings in each neighborhood in any given month whose host has registered on Airbnb.  
+
+## Exploring Our Data
 
 ```{r pressure}
 plot(pressure)
 ```
+
+## Building the Model
+
+In order to test our hypotheses, we will employ a Regression Discontinuity Model...
+
+> (1) ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (2) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+## Results
+
+
+## Results & Policy Implications
+
 
