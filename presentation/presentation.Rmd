@@ -60,11 +60,19 @@ plot(pressure)
 
 ## Building the Model
 
-In order to test our hypotheses, we will employ a Regression Discontinuity Model...
+In order to test our hypotheses, we will employ several models
 
-> (1) ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+> (1) OLS Using Overnights as the Dependent Variable
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
-> (2) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+> (2) Fixed Effects with Income and Unemployment as Economic Control Variables
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (3) Fixed Effects with Income, Unemployment, and a Neighborhood Specific Time Trend
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (4) Uses Hotel Occupancy Rate as the Dependent Variable & Introduces an Airbnb Interaction Term. 
+${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
 ## Results
 
