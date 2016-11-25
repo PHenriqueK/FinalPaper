@@ -1,5 +1,5 @@
 ---
-title: "The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach"
+title: "Airbnb vs. Hotels in Berlin: A Regression Discontinuity Approach"
 author: "Daniel J Murphy & Paulo H Kalkhake"
 date: "2 December 2016"
 output: 
@@ -19,22 +19,23 @@ try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/presentation"),silent=TRUE)
 
 ```
 
-## R Markdown
+## Airbnb in Berlin
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+- According to Airbnb, more than 20,000 Berliners have hosted travelers via Airbnb in the past year. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+- In that same period, more than half a million guests have used Airbnb in Berlin.
 
-## Slide with Bullets
+- Airbnb also reports that the average Berlin host's rating is 4.6 out of 5 stars, and that staying with Airbnb makes guests more likely to return to Berlin. 
 
-- What is your research question? Why is it interesting?
+Graphic?
 
-- What data did you gather/methods did you use?
+## Recent Literaure
 
-- What are your results?
+- *Rents and Zweckentfremdungsverbot:* Schafer et al found that 5,555 residential apartments in Berlin are currently being misused for Airbnb. 
 
-- Engagingly present your research question and key findings to a general academic audience (fellow students).
+- *But What About The Hotel Industry?* Guttentag estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
 
+<<<<<<< HEAD
 ## Estimation Results
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
@@ -69,10 +70,59 @@ stargazer(ModelIILM, ModelII, ModelC, ModelD,
           type = "html")
 
 ```
+=======
+- *Airbnb Messes with Texas:* Zervas et al. found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
 
-## Slide with Plot
+## Hypotheses
+
+- *H1:* The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.
+
+- *H2:* The Airbnb effect is likely the strongest once it has reached a critical mass.
+
+- *H3:* Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.
+
+## Data & Variables
+
+We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
+>>>>>>> origin/master
+
+Our analysis will focus on the following variables derived from this data. 
+
+- *Occupancy Rate:* The number supply of beds in a given district divided by the number of overnight stays in that district in a given month. 
+
+- *Airbnb Supply:* The number of listings in each neighborhood in any given month whose host has registered on Airbnb.  
+
+## Exploring Our Data
 
 ```{r pressure}
 plot(pressure)
 ```
+
+## Building the Model
+
+In order to test our hypotheses, we will employ several models
+
+> (1) OLS Using Overnights as the Dependent Variable
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (2) Fixed Effects with Income and Unemployment as Economic Control Variables
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (3) Fixed Effects with Income, Unemployment, and a Neighborhood Specific Time Trend
+${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+> (4) Uses Hotel Occupancy Rate as the Dependent Variable & Introduces an Airbnb Interaction Term. 
+${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+
+## Results
+
+
+## Results & Policy Implications
+
+Policy Implications
+
+> (1) Unlike Zervas et al., we did not find a significant negative effect of Airbnb on the hotel industry. 
+
+> (2) 
+
 
