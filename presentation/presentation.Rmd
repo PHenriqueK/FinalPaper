@@ -7,12 +7,15 @@ output:
     #css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
     logo: 
   beamer_presentation: default
-#bibliography: bibliography.bib
+bibliography: bibliography.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+# Set working directory
+try(setwd("/Users/Paulo/GitHub/FinalPaper/presentation"),silent=TRUE)
+try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/presentation"),silent=TRUE)
 
 ```
 
@@ -32,6 +35,42 @@ Graphic?
 
 - *But What About The Hotel Industry?* Guttentag estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
 
+<<<<<<< HEAD
+## Estimation Results
+
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+
+analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
+
+ModelIILM <- lm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry + NID + factor_ym, data=analysis_simple)
+
+ModelII <- plm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
+
+#Model C: introduces an interaction between log_airbnb supply and the absolute level of airbnb supply
+ModelC <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
+
+#Model D: introduces a binary variable for Airbnb's official market entry
+ModelD <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
+
+stargazer(ModelIILM, ModelII, ModelC, ModelD, 
+          title="Effect of Airbnb Supply on Hotels in Berlin (2010 - 2014)", 
+          digits = 2, 
+          covariate.labels = c("log Airbnb listings", "Airbnb listings", "Log*Level", "Average HH income (log)", "Unemployment rate"), 
+          omit = c("NID", "factor_ym"),           
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
+          dep.var.labels = c("Overnight", "Occupancy Rate"),
+          no.space = TRUE,
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          font.size = 'small',
+          add.lines = list(c('District FE?', rep('No', 4))),
+          align = FALSE,
+          type = "html")
+
+```
+=======
 - *Airbnb Messes with Texas:* Zervas et al. found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
 
 ## Hypotheses
@@ -45,6 +84,7 @@ Graphic?
 ## Data & Variables
 
 We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
+>>>>>>> origin/master
 
 Our analysis will focus on the following variables derived from this data. 
 

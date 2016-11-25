@@ -1,5 +1,5 @@
 ---
-title: "The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach"
+title: "The Effect of Airbnb on Hotels: Evidence from Berlin"
 subtitle: 'Final Paper for Introduction to Collaborative Social Science Data Analysis'
 author: "Daniel J Murphy & Paulo H Kalkhake"
 date: "December 9, 2016"
@@ -11,7 +11,6 @@ fig_caption: TRUE
 inline_notes: TRUE
 linestretch: 1.3
 csl: international-economic-journal.csl
-
 ---
 
 ```{r setup, include=FALSE}
@@ -141,6 +140,8 @@ From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or 
 
 Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directily available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. Given this approach we have to exclude 3,153 listings that did not receive at least one review in the reporting period. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month before to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data. This is because owners do not accurately update their listings' availability. 
 
+> Despite imperfect information, we do have substantial data with which to construct proxies for supply, namely the date that hosts became Airbnb members, and the date for each review of each property. Significantly, Fradkin et al. (2014) report that 67% of Airbnb guests left a review about their stay across their large dataset. For market entry, we can estimate the (unobservable) entry date of individual listings either by using the date their owners became Airbnb members or by the date of the first review. Similarly, we can construct proxies for both cumulative and instantaneous supply by leveraging the review histories we compile.
+
 The final data set covers 720 monthly obversations across tewlve districts in Berlin and covers the time period between 2010 and 2014.
 
 # Methodology & Analysis
@@ -201,19 +202,17 @@ Table 1 compares the results for the different models.
 
 analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
 
-#Model I: 
-ModelI <- lm(log_nights ~ log_ABsupply + NID + factor_ym, data=analysis_simple)
+ModelIILM <- lm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry + NID + factor_ym, data=analysis_simple)
 
-#Model II: 
-ModelII <- lm(log_nights ~ log_ABsupply + log_inc + ue_rate + NID + factor_ym, data=analysis_simple)
-
-#Model III: 
-ModelIII <- lm(log_nights ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + NID + factor_ym, data=analysis_simple)
+ModelII <- plm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
 
 #Model C: introduces an interaction between log_airbnb supply and the absolute level of airbnb supply
-ModelC <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + NID + factor_ym, data=analysis_simple, index=c("NID", "factor_ym"), model="random")
+ModelC <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
 
-stargazer(ModelI, ModelII, ModelIII, ModelC, 
+#Model D: introduces a binary variable for Airbnb's official market entry
+ModelD <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
+
+stargazer(ModelIILM, ModelII, ModelC, ModelD, 
           title="Effect of Airbnb Supply on Hotels in Berlin (2010 - 2014)", 
           digits = 2, 
           covariate.labels = c("log Airbnb listings", "Airbnb listings", "Log*Level", "Average HH income (log)", "Unemployment rate"), 
@@ -256,5 +255,5 @@ First of all, they had used individual data for all hotels while we only had a c
 The purpose of this paper was to measure the impact of Airbnb on the hotel industry Berlin. Whilst a paper by ZERVAS found a negative impact of Airbnb supply on the hotel industry in Texas, we could not replicate this result. In fact, we found a positive highly significant effect of Airbnb supply on both, overnight stays and hotel occupancy rates accross all districts between 2010 and 2014. From our point of view, this might have different reasons. First, the observation period. Second, Airbnb accomodations and hotel rooms are complementary goods, not substitutes. Last, Zervas had a much higher data richness using data on hotel level (less aggregated) 
 
 \newpage
-##Bibliography
+#Bibliography
 
