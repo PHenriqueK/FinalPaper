@@ -22,7 +22,7 @@ data_2010_2014$apt_new[is.na(data_2010_2014$apt_new)] <- 0
 data_2010_2014$AB_supply <- ave(data_2010_2014$apt_new, data_2010_2014$NID, FUN=cumsum)
 
 #Dropping variables not needed for further analysis
-analysis_simple <- data_2010_2014[, c("NID", "neighbourhood", "year_month", "year", "month", "occup_rate", "AB_supply", "avg_inc", "ue_rate", "guests", "beds", "nights" )]
+analysis_simple <- data_2010_2014[, c("NID", "neighbourhood", "year_month", "year", "month", "occup_rate", "AB_supply", "avg_inc", "ue_rate", "guests", "beds", "nights", "hotels" )]
 analysis_simple$NID <- as.factor(analysis_simple$NID)
 analysis_simple$factor_ym <- as.factor(analysis_simple$year_month)
 analysis_simple$neighbourhood <- substring(analysis_simple$neighbourhood, 3)
@@ -39,8 +39,7 @@ analysis_simple$log_nights <- log(analysis_simple$nights)
 analysis_simple$log_inc <- log(analysis_simple$avg_inc)
 
 #Create binary variable for Airbnb's official market entry in June 2011
-analysis_simple$year <- as.numeric(analysis_simple$year)
-analysis_simple$marketentry <- ifelse ((analysis_simple$year_month < "Juni 2011"), 0, 1)
+analysis_simple$marketentry <- ifelse ((as.character(analysis_simple$year_month) < "Juni 2011"), 0, 1)
 
 #interactionterm
 analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply

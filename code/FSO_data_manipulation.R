@@ -49,4 +49,4 @@ GENESIS <- GENESIS[, c(1,2,7,3,4,5,6)]
 
 #Removing unnecessary data subsets
 remove(GENESIS_2010, GENESIS_2011, GENESIS_2012, GENESIS_2013, GENESIS_2014) 
-GENESIS_merge <- GENESIS[, c("NID", "year", "beds")]
+GENESIS_merge <- GENESIS[, c("NID", "year", "beds", "hotels")]

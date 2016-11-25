@@ -29,6 +29,7 @@ FSO_SBB$occup_rate[FSO_SBB$month == 4 | 6 | 9 | 11] <- FSO_SBB$nights[FSO_SBB$mo
 FSO_SBB$occup_rate[FSO_SBB$month == 2 ] <- FSO_SBB$nights[FSO_SBB$month == 2 ]/(FSO_SBB$beds[FSO_SBB$month == 2 ]*28)
 
 #Final merge, creates our comprehensive data frame
+agg_listings_merge$year_month <- as.factor(agg_listings_merge$year_month)
 analysis_data <- merge(FSO_SBB, agg_listings_merge, by=c("NID", "year_month"), all.x = TRUE)
 
 life_listings1 <- merge(FSO_SBB, life_listings, by=c("NID", "year_month"), all.x = TRUE)
