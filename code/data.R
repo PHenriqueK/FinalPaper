@@ -18,6 +18,8 @@ try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/"),silent=TRUE)
 # (install when needed)
 
 library(ggplot2)
+library(reshape)
+library(reshape2)
 library(car)
 library(plm)
 library(lubridate)
