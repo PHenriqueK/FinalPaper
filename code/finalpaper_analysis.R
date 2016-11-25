@@ -25,6 +25,7 @@ data_2010_2014$AB_supply <- ave(data_2010_2014$apt_new, data_2010_2014$NID, FUN=
 analysis_simple <- data_2010_2014[, c("NID", "neighbourhood", "year_month", "year", "month", "occup_rate", "AB_supply", "avg_inc", "ue_rate", "guests", "beds", "nights" )]
 analysis_simple$NID <- as.factor(analysis_simple$NID)
 analysis_simple$factor_ym <- as.factor(analysis_simple$year_month)
+analysis_simple$neighbourhood <- substring(analysis_simple$neighbourhood, 3)
 
 #Group data
 #analysis_simple <- group_by(analysis_simple, NID, year, year_month)
