@@ -57,23 +57,12 @@ lifecourse <- lifecycle_NID[, c("id", "NID", "rev_year_month", "year_month", "li
 
 lifecourse <- lifecourse[which(lifecourse$listing_year < 2015),]
 
-get.mav <- function(bp,n=7){
-  require(zoo)
-  if(is.na(bp[1])) bp[7] <- sum(bp,na.rm=TRUE)
-  bp <- na.locf(bp,na.rm=FALSE)
-  if(length(bp)<n) return(bp)
-  c(bp[1:(n-7)],rollapply(bp,width=n,sum,align="right"))  
-}
+lifecourse$life <- rollmean(lifecourse$new_reviews, 7, na.pad = TRUE, align = "left")
 
-library(data.table)
-setDT(lifecourse)     # converts test to a data.table in place
-setkey(lifecourse,id,rev_year_month)
-lifecourse[,life:=as.numeric(get.mav(new_reviews,7)),by=id]
+#lifecourse$life [lifecourse$new_reviews == 1] <- 1
+#lifecourse$new_reviews [lifecourse$rev_year_month == lifecourse$year_month] <- 1
 
-lifecourse$life [lifecourse$new_reviews == 1] <- 1
-lifecourse$new_reviews [lifecourse$rev_year_month == lifecourse$year_month] <- 1
-
-lifecourse$count [lifecourse$life >= 1] <- 1
+lifecourse$count [lifecourse$life > 0] <- 1
 lifecourse$count [is.na(lifecourse$count)] <- 0
 
 life_reshape <- lifecourse
