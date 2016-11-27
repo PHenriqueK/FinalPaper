@@ -5,92 +5,99 @@ date: "2 December 2016"
 output: 
   ioslides_presentation:
     #css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
-    logo: 
+    logo: presentation_figures/HSG_Logo_rgb.jpg
   beamer_presentation: default
 bibliography: bibliography.bib
 ---
 
-```{r setup, include=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 knitr::opts_chunk$set(echo = FALSE)
 
 # Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper/presentation"),silent=TRUE)
 try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/presentation"),silent=TRUE)
 
+# Dynamical Link to Data/Packages R script file (takes some time!)
+# source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
+
+##create a theme for all graphs (courtesy of Max Wolf)
+fte_theme <- function() {
+      
+# Generate the colors for the chart procedurally with RColorBrewer
+palette <- brewer.pal("Greys", n=9)
+color.background = palette[2]
+color.grid.major = palette[3]
+color.axis.text = palette[6]
+color.axis.title = palette[7]
+color.title = palette[9]
+      
+# Begin construction of chart
+theme_bw(base_size=9) +
+        
+# Set the entire chart region to a light gray color
+theme(panel.background=element_rect(fill=color.background, color=color.background)) +
+theme(plot.background=element_rect(fill=color.background, color=color.background)) +
+theme(panel.border=element_rect(color=color.background)) +
+      
+# Format the grid
+theme(panel.grid.major=element_line(color=color.grid.major,size=.25)) +
+theme(panel.grid.minor=element_blank()) +
+theme(axis.ticks=element_blank()) +
+      
+# Format the legend, but hide by default
+theme(legend.position="none") +
+theme(legend.background = element_rect(fill=color.background)) +
+theme(legend.text = element_text(size=7,color=color.axis.title)) +
+      
+# Set title and axis labels, and format these and tick marks
+theme(plot.title=element_text(color=color.title, size=10, vjust=1.25)) +
+theme(axis.text.x=element_text(size=7,color=color.axis.text)) +
+theme(axis.text.y=element_text(size=7,color=color.axis.text)) +
+theme(axis.title.x=element_text(size=8,color=color.axis.title, vjust=0)) +
+theme(axis.title.y=element_text(size=8,color=color.axis.title, vjust=1.25)) +
+      
+# Plot margins
+theme(plot.margin = unit(c(0.35, 0.2, 0.3, 0.35), "cm"))
+}
+
 ```
 
 ## Airbnb in Berlin
 
-- According to Airbnb, more than 20,000 Berliners have hosted travelers via Airbnb in the past year. 
+- 20,000+ Berliners have hosted travelers via Airbnb in 2015 [@Airbnb:2015aa]. 
 
-- In that same period, more than half a million guests have used Airbnb in Berlin.
-
-- Airbnb also reports that the average Berlin host's rating is 4.6 out of 5 stars, and that staying with Airbnb makes guests more likely to return to Berlin. 
-
-Graphic?
-
-## Recent Literaure
+- And more than half a million guests.
 
 - *Rents and Zweckentfremdungsverbot:* Schafer et al found that 5,555 residential apartments in Berlin are currently being misused for Airbnb. 
 
+
+Graphic?
+
+## Previous Research
+
+- Effect on rents: 
+
 - *But What About The Hotel Industry?* Guttentag estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
 
-<<<<<<< HEAD
-## Estimation Results
-
-``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
-
-analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
-
-ModelIILM <- lm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry + NID + factor_ym, data=analysis_simple)
-
-ModelII <- plm(log_nights ~ log_ABsupply + AB_supply + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
-
-#Model C: introduces an interaction between log_airbnb supply and the absolute level of airbnb supply
-ModelC <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
-
-#Model D: introduces a binary variable for Airbnb's official market entry
-ModelD <- plm(occup_rate ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + marketentry, data=analysis_simple, index=c("NID", "factor_ym"), model="within")
-
-stargazer(ModelIILM, ModelII, ModelC, ModelD, 
-          title="Effect of Airbnb Supply on Hotels in Berlin (2010 - 2014)", 
-          digits = 2, 
-          covariate.labels = c("log Airbnb listings", "Airbnb listings", "Log*Level", "Average HH income (log)", "Unemployment rate"), 
-          omit = c("NID", "factor_ym"),           
-          omit.stat = c('f', 'ser'), # to nicely fits on the page
-          omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
-          dep.var.labels = c("Overnight", "Occupancy Rate"),
-          no.space = TRUE,
-          out.header = FALSE, 
-          model.names = FALSE,
-          header = FALSE,
-          font.size = 'small',
-          add.lines = list(c('District FE?', rep('No', 4))),
-          align = FALSE,
-          type = "html")
-
-```
-=======
 - *Airbnb Messes with Texas:* Zervas et al. found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
+
+- Our paper contributes to this white spot in literature.
 
 ## Hypotheses
 
 - *H1:* The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.
 
-- *H2:* The Airbnb effect is likely the strongest once it has reached a critical mass.
+- *H2:* The Airbnb effect is likely the strongest once it has reached an undefined critical mass.
 
 - *H3:* Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.
 
 ## Data & Variables
 
-We collected data from three separate sources, the Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
->>>>>>> origin/master
+- Sources: Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
 
-Our analysis will focus on the following variables derived from this data. 
+- *Airbnb Supply:* cumulative sum of listed Airbnb Apts
 
-- *Occupancy Rate:* The number supply of beds in a given district divided by the number of overnight stays in that district in a given month. 
-
-- *Airbnb Supply:* The number of listings in each neighborhood in any given month whose host has registered on Airbnb.  
+- *Overnight Stays* in a given month and district
 
 ## Exploring Our Data
 
@@ -101,8 +108,7 @@ plot(pressure)
 ## Building the Model
 
 In order to test our hypotheses, we will employ several models
-
-> (1) OLS Using Overnights as the Dependent Variable
+ (1) OLS Using Overnights as the Dependent Variable
 ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
 > (2) Fixed Effects with Income and Unemployment as Economic Control Variables
@@ -114,10 +120,19 @@ ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \
 > (4) Uses Hotel Occupancy Rate as the Dependent Variable & Introduces an Airbnb Interaction Term. 
 ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
-## Results
+## Modifications
 
+- $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
 
-## Results & Policy Implications
+- Introducing dynamic Airbnb supply 
+
+## First Results
+
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+
+```
+
+## Prelimenary Conclusion
 
 Policy Implications
 
