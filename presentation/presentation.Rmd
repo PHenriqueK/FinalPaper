@@ -89,8 +89,6 @@ Graphic?
 
 - *H2:* The Airbnb effect is likely the strongest once it has reached an undefined critical mass.
 
-- *H3:* Since Airbnb's listings are concentrated in districts with low hotel density, the effect of substitution will be more pronounced in those districts.
-
 ## Data & Variables
 
 - Sources: Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
@@ -108,8 +106,6 @@ plot(pressure)
 ## Building the Model
 
 In order to test our hypotheses, we will employ several models
- (1) OLS Using Overnights as the Dependent Variable
-${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
 > (2) Fixed Effects with Income and Unemployment as Economic Control Variables
 ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$

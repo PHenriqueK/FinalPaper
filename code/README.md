@@ -2,7 +2,7 @@
 
 Dan Murphy & Paulo Kalkhake
 
-Latest Update: November 11, 2016
+Latest Update: November 30, 2016
 
 ##The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach.
 

@@ -27,22 +27,6 @@ In addition to this readme file, there are 11 files in this repository.
 | airbnb_data_manipulation.R | Cleans Airbnb data  |
 | Bibliography.bib | Relevant references in BibTeX format |
 
-In order to successfully run the code, either run the *assignment03_analysis.R* file with the source code, or run the files in the following order. 
-
-> *1. data.R*
-
-> *2. data_airbnb.R*
-
-> *3. FSO_data_manipulation.R*
-
-> *4. SBB_data_manipulation.R*
-
-> *5. airbnb_data_manipulation.R*
-
-> *6. merge.R*
-
-> *7. assignment03_analysis.R*
-
 ### Contact
 Comments and feedback are encouraged, and can be sent to [Paulo Kalkhake](mailto: p.kalkhake@mpp.hertie-school.org(p.kalkhake@mpp.hertie-school.org)) or [Dan Murphy](mailto:danieljmurphy01@gmail.com)).
 
@@ -61,14 +45,8 @@ ________
 # The effect of AIRBNB is likely best observed once it has reached a critical mass. So, here we introduce an interaction between log_airbnb supply and the absolute level of airbnb supply.
 3. Model C: log_occup_rate = log_supply * econ_control * neighborhood_dummy * year_dummy * interaction variable
 
-### MAYBE. Here, we would try to account for the fact that airbnb supply is more complicated than we have so far defined it. We would do this be mimicking Zervas's methodology. So, we would introduce review data, and redefine airbnb supply to include our best inference as to whether Airbnb was available at a given time based off of those reviews. 
-#To do that, we would define supply as the number of airbnb's available in a given apartment in a given month. This would be calculated by looking at the date that a host signed up for Airbnb and the date of the individual reviews. Upon the sign up date, the listing would be assigned a "life period" of X months, which would then be renewed upon each subsequent review. If a listing exceeds its life period without a review, then we assume that it is no longer available. However, once it recieves another review it would then be considered available again for another X months. 
-4. Model D: 
+### MAYBE. 
 
-
-
-__________________________________________
-For the Collaborative Research Project you will pose an interesting social science question and attempt to answer it using standard academic practices including original data collection and statistical analysis. The project should be considered a ‘dry run’ for your thesis. The project has three presentation outputs designed to present your research to multiple audiences. The first is a oral presentation (10 minute maximum) given in the final class. The second is a standard academic paper (5,000 words maximum) that is fully reproducible and dynamically generated. The third is a website designed to present key aspects of your research in an engaging way to a general audience. The paper and website are due in the Final Exam Week. The presentation and website are each worth 10% of your final mark. The paper is worth 30%.
 
 **Deadline**:
 
@@ -89,45 +67,3 @@ your research question, literature review, data, methods, and findings.
 
 Website: An engaging website designed to convey your research to **a general
 audience**.
-
-## Collaborative Research Project (3)
-
-As always, you should **submit one GitHub repository** with all of the
-materials needed to **completely reproduce** your data gathering, analysis, and
-presentation documents.
-
-**Note**: Because you've had two assignments already to work on parts of the
-project, I expect **high quality work**.
-
-## Collaborative Research Project (4)
-
-Find one other group to be a **discussant** for your presentation.
-
-The discussants will provide a quick (max 2 minute) critique of your 
-presentation--ideas for things you can improve on your paper.
-
-
-________________
-# Gandrud criticsms of third pair assignment
-
-## Gathered/Cleaned/Merged 2 Data Sets (if applicable)
-
-Good discussion of data sources, gathering, cleaning, and merging.
-
-## Descriptive Statistics for Evaluating Research Question
-
-Generally nice plots for describing the data. Though somewhat scant exploration of the data. You could have explored the data in much more detail.
-
-Unclear from the plot what the lines in the first figure show.
-
-## Inferential Statistics for Evaluating Research Question (attempted, but not required)
-
-What you are really interested in is not the level of listings vs hotel occupancy, but instead how the change in the former affects the change in the latter.
-
-## Dynamically Generated Tables/Figures
-
-Dynamically generated plots, but no tables.
-
-
-
-**Total Mark**:  8.5/10

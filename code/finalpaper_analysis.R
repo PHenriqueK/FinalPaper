@@ -96,4 +96,3 @@ FEIV <- function(x, y) {
 FEV <- function(x, y) {
   plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
 }
-

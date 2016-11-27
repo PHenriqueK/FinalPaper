@@ -239,6 +239,11 @@ Our new main specification takes further into account that the effect of Airbnb 
 
 Whilst the effect of Airbnb listings seems to be significant in all our specifications, the expected negative effect is in fact positive, even when controlling for economic heterogeneity. 
 
+So far, this paper was not able to identify a negative impact of Airbnb on the Hotel industry in Berlin. 
+
+
+Here, we would try to account for the fact that Airbnb supply is more complicated than we have so far defined it. In light of Zervas, we introduce review data, and redefine airbnb supply to include our best inference as to whether Airbnb was available at a given time based off of those reviews. To do that, we would define supply as the number of airbnb's available in a given apartment in a given month. This would be calculated by looking at the date of the first review of the apartment on Airbnb and the date of the individual reviews. Upon the sign up date, the listing would be assigned a "life period" of 6 months, which would then be renewed every month upon each subsequent review. If a listing exceeds its life period without a review, then we assume that it is no longer available. However, once it recieves another review it would then be considered available again for another 6 months. 
+
 Further methods of data exploration
 
 > We then want to control for unobservables that evolve following some trend that can differ from a region to another. This is often done in DD papers by including a linear or a quadratic region-specific time trend. In Zervas et al. (2014), they only report estimates with the quadratic city-specific trend since their results were apparently not really affected by this choice. 
