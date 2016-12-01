@@ -126,8 +126,3 @@ FEIV <- function(x, y) {
 FEV <- function(x, y) {
   plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + dmarketentry + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
 }
-
-ModelII <- FEIIa(marketentry_static$occup_rate, marketentry_static)
-summary(ModelII)
-
-analysis_simple$lagABsupply <- lag(analysis_simple$AB_supply, k = -1)

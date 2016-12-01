@@ -1,11 +1,11 @@
 ---
-title: "Airbnb vs. Hotels in Berlin: A Regression Discontinuity Approach"
+title: "The Effect of Airbnb on Hotels: Evidence from Berlin"
 author: "Daniel J Murphy & Paulo H Kalkhake"
 date: "2 December 2016"
 output: 
   ioslides_presentation:
     #css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
-    logo: presentation_figures/HSG_Logo_rgb.jpg
+    #logo: presentation_figures/HSG_Logo_rgb.jpg
   beamer_presentation: default
 bibliography: bibliography.bib
 ---
@@ -18,112 +18,85 @@ try(setwd("/Users/Paulo/GitHub/FinalPaper/presentation"),silent=TRUE)
 try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/presentation"),silent=TRUE)
 
 # Dynamical Link to Data/Packages R script file (takes some time!)
-# source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
-
-##create a theme for all graphs (courtesy of Max Wolf)
-fte_theme <- function() {
-      
-# Generate the colors for the chart procedurally with RColorBrewer
-palette <- brewer.pal("Greys", n=9)
-color.background = palette[2]
-color.grid.major = palette[3]
-color.axis.text = palette[6]
-color.axis.title = palette[7]
-color.title = palette[9]
-      
-# Begin construction of chart
-theme_bw(base_size=9) +
-        
-# Set the entire chart region to a light gray color
-theme(panel.background=element_rect(fill=color.background, color=color.background)) +
-theme(plot.background=element_rect(fill=color.background, color=color.background)) +
-theme(panel.border=element_rect(color=color.background)) +
-      
-# Format the grid
-theme(panel.grid.major=element_line(color=color.grid.major,size=.25)) +
-theme(panel.grid.minor=element_blank()) +
-theme(axis.ticks=element_blank()) +
-      
-# Format the legend, but hide by default
-theme(legend.position="none") +
-theme(legend.background = element_rect(fill=color.background)) +
-theme(legend.text = element_text(size=7,color=color.axis.title)) +
-      
-# Set title and axis labels, and format these and tick marks
-theme(plot.title=element_text(color=color.title, size=10, vjust=1.25)) +
-theme(axis.text.x=element_text(size=7,color=color.axis.text)) +
-theme(axis.text.y=element_text(size=7,color=color.axis.text)) +
-theme(axis.title.x=element_text(size=8,color=color.axis.title, vjust=0)) +
-theme(axis.title.y=element_text(size=8,color=color.axis.title, vjust=1.25)) +
-      
-# Plot margins
-theme(plot.margin = unit(c(0.35, 0.2, 0.3, 0.35), "cm"))
-}
+source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 
 ```
 
 ## Airbnb in Berlin
+- An online apartment sharing platform founded in 2008.
 
-- 20,000+ Berliners have hosted travelers via Airbnb in 2015 [@Airbnb:2015aa]. 
+- 20,000+ Berliners hosted more than half a million guests in 2015
 
-- And more than half a million guests.
+- Renting out flats as a source of income has become more and more popular.
 
-- *Rents and Zweckentfremdungsverbot:* Schafer et al found that 5,555 residential apartments in Berlin are currently being misused for Airbnb. 
-
-
-Graphic?
+## Airbnb in Berlin
+<div align="center">
+<img src="presentation_figures/BerlinAirbnb.png" width=600 height=450>
+<br>
+<span style="font-size=5%">Source: <a href="www.insideairbnb.com">www.insideairbnb.com</a>
+</div>
 
 ## Previous Research
+- **Airbnb drives up rent:** @schafer2016misuse found that rent growth is higher in neighbourhoods that have a significant number of misused flats.
 
-- Effect on rents: 
+- *But What About The Hotel Industry?* @guttentag2015airbnb estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
 
-- *But What About The Hotel Industry?* Guttentag estimates that Airbnb sold about 15 million room nights in 2012. Similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands.
+- **Evidence from Texas:** @zervas2016rise found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
 
-- *Airbnb Messes with Texas:* Zervas et al. found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
+## Research Question & Hypothesis
+<br>
+<br>
+<br>
+<center>
+What is the effect of Airbnb on Hotels in Berlin?
 
-- Our paper contributes to this white spot in literature.
-
-## Hypotheses
-
-- *H1:* The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.
-
-- *H2:* The Airbnb effect is likely the strongest once it has reached an undefined critical mass.
+*The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.*
+</center>
 
 ## Data & Variables
 
-- Sources: Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), and *InsideAirbnb.com*. 
+Sources: Statistical Information System Berlin/Brandenburg (SBB), the Federal Statistical Office and the statistical offices of the Länder (FSO), *InsideAirbnb.com*, & Eurostat.
 
-- *Airbnb Supply:* cumulative sum of listed Airbnb Apts
+Dependent variable: $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
 
-- *Overnight Stays* in a given month and district
+| Type of Variable                    | Name |
+| ----------------------- | --------------------- | 
+| **Airbnb Supply**   |  Cumulative sum of new listings| 
+| **Dynamic Airbnb Supply**  | Active listings based on reviews |
 
-## Exploring Our Data
 
-```{r pressure}
-plot(pressure)
+## Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)
+```{r, echo=FALSE}
+
+NID_Subset <- subset(analysis_simple, analysis_simple$month==12)
+
+ggplot(NID_Subset, aes(x=year, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    labs(x="Year", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood")
+
 ```
 
-## Building the Model
+## Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)
+```{r, echo=FALSE}
 
-In order to test our hypotheses, we will employ several models
+ggplot(analysis_simple, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
 
-> (2) Fixed Effects with Income and Unemployment as Economic Control Variables
-${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+```
 
-> (3) Fixed Effects with Income, Unemployment, and a Neighborhood Specific Time Trend
-${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+##Regression Model
+Fixed Effects (for time and district) to account for unobserved heterogeneity:
 
-> (4) Uses Hotel Occupancy Rate as the Dependent Variable & Introduces an Airbnb Interaction Term. 
-${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+> ${\log Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \tau _i + \varepsilon _{it}$
 
-## Modifications
+${X'}$: Control variables (UE rate, average HH income, passengers arriving in Berlin)
 
-- $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
+${\tau _i}$: Time and district dummies
 
-- Introducing dynamic Airbnb supply 
-
-## First Results
-
+##Estimation Results
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 
 ```
