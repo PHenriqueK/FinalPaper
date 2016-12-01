@@ -166,10 +166,7 @@ NID_Subset <- subset(analysis_simple, analysis_simple$month==12)
 Graph2 <- ggplot(NID_Subset, aes(x=year, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
     geom_line(alpha=0.7) + 
     labs(x="Year", y="Number of Airbnb Listings")
-Graph2 + scale_colour_discrete(name  ="Neighbourhood", 
-                             breaks=c("01 Mitte", "02 Friedrichshain-Kreuzberg", "03 Pankow", "04 Charlottenburg-Wilmersdorf", "05 Spandau", "06 Steglitz-Zehlendorf", "07 Tempelhof-Schoeneberg", "08 Neukoelln", "09 Treptow-Koepenick", "10 Marzahn-Hellersdorf", "11 Lichtenberg", "12 Reinickendorf"), 
-                             labels=c("Mitte", "Friedrichshain-Kreuzberg", "Pankow", "Charlottenburg-Wilmersdorf", "Spandau", "Steglitz-Zehlendorf", "Tempelhof-Schoeneberg", "Neukoelln", "Treptow-Koepenick", "Marzahn-Hellersdorf", "Lichtenberg", "Reinickendorf"))
-
+Graph2 + scale_colour_discrete(name  ="Neighbourhood")
 
 ```
 
