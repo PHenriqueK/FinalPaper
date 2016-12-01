@@ -129,18 +129,14 @@ Graph2 + scale_colour_discrete(name  ="Neighbourhood")
 
 ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
 
-
-
-@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. In lack of a comparable control observation, we will incorporate a time specific trend to account for unobserved heterogeneity, as tourism in Berlin has increased dramatically in recent years. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that this increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
+@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We replicated this approach by using Eurostat data on the number of passengers arriving at Berlin's two major airports. Upon cleaning this data, we see an increase of _____________ in the number of passengers arriving in Berlin. Additionally, we will incorporate a time specific trend to account for unobserved heterogeneity. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that the increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
 
 ##Inferential Analysis
-Following @zervas2013rise, our analysis takes advantage of the fact that Airbnb offically entered the German market in June 2011 with the acquisition of Accoleo, and also grew differently depending on the neighbourhood. By introducing a binary variable which is equal to one for all observations after Airbnb's market entry in Berlin and interacting that variable with all regressors in our model, we account for all the changes in hotel occupancy rates before and after Airbnb's market entry in Berlin, i. e. the dicontinuity at market entry. 
-
 > The key identification assumption we have to make to support a causal interpretation of this DD estimate is that there are no unobserved, time-varying, city-specific factors that are correlated with both Airbnb entry and hotel room revenue. Stated differently, we assume that unobserved factors that could potentially jointly affect both Airbnb adoption and hotel room revenue do not systematically vary both between different cities and over time.
 
-Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis will focus on hotel occupancy rates. Also unlike the model used by the authors, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns. Instead, we propose the use of a Regression Discontinuity Model (RDM) [@jacob2012practical]. 
+Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis focuses on hotel occupancy rates. Also unlike the model used by @zervas2016rise, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns.
 
-Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occpuancies main specification for our proposal would look like this:
+Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occupancies main specification for our proposal would look like this:
 
 > (1) ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
@@ -212,7 +208,17 @@ In contrast to Zervas et al. (2014) we did not find that Airbnb had a significan
 First of all, they had used individual data for all hotels while we only had a computed value on hotel occupancy at the district level. Thus, we measure the impact of Airbnb supply on a much smaller scale and might have some sort of omitted variable bias. 
 
 #Policy Implications & Conclusion
-The purpose of this paper was to measure the impact of Airbnb on the hotel industry Berlin. Whilst a paper by ZERVAS found a negative impact of Airbnb supply on the hotel industry in Texas, we could not replicate this result. In fact, we found a positive highly significant effect of Airbnb supply on both, overnight stays and hotel occupancy rates accross all districts between 2010 and 2014. From our point of view, this might have different reasons. First, the observation period. Second, Airbnb accomodations and hotel rooms are complementary goods, not substitutes. Last, Zervas had a much higher data richness using data on hotel level (less aggregated) 
+The purpose of this paper was to measure the impact of Airbnb on the hotel industry in Berlin. Whilst a paper by @zervas2016rise found that Airbnb has a negative impact on the hotel industry in Texas, we could not find a similar effect in Berlin. Much to our surprise, we found a positive highly significant effect of Airbnb supply on both, overnight stays and hotel occupancy rates accross all districts between 2010 and 2014. 
+
+From our point of view, this might have different reasons. First, our observation period is not ideal. Aside from its obvious time limitation of only four years, our analysis does not include the year 2015. This is a significant loss for the Airbnb supply variable, as it appears that 2015 was the year that Airbnb supply in Berlin truly skyrocketed. We can see in the raw data from *InsideAirbnb.com*, for example, that the number of listings in Friedricshain-Kreuzberg increased by 342 in March of 2015, compared to 97 in March of 2014. Unfortunately, data limitations in the rest of our variables for the year 2015 prevented us from fully utilizing this Airbnb supply data. 
+
+Second, Airbnb accomodations and hotel rooms may be better considered as complements and not substitutes. 
+
+Perhaps the most likely explanation, however, is that Zervas et al. was simply blessed with much richer data than we were. Specifically with respect to Airbnb supply, we believe that both our investigation and Zervas's would benefit from detailed listing availability data. 
+
+
+
+richness using data on hotel level (less aggregated) 
 
 \newpage
 #Bibliography
