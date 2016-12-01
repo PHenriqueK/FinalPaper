@@ -33,3 +33,15 @@ agg_listings_merge$year_month <- as.factor(agg_listings_merge$year_month)
 
 analysis_data <- merge(FSO_SBB, agg_listings_merge, by=c("NID", "year_month"), all.x = TRUE) ##static supply 
 life_listings1 <- merge(FSO_SBB, life_listings, by=c("NID", "year_month"), all.x = TRUE) ##dynamic supply
+
+#Merging with Airport data
+
+#Preparing passenger stats for merge
+Airportarrivals$Arrivals <- Airportarrivals$SXF + Airportarrivals$TXL
+Airportarrivals <- Airportarrivals[, c("REP_AIRP.TIME", "Arrivals")]
+names(Airportarrivals) <- c("year_month", "arrivals")
+Airportarrivals$year_month <- as.yearmon(Airportarrivals$year_month)
+Airportarrivals$year_month <- as.factor(Airportarrivals$year_month)
+
+analysis_data <- merge(analysis_data, Airportarrivals, by=c("year_month"), all.x = TRUE) ##static supply 
+life_listings1 <- merge(life_listings1, Airportarrivals, by=c("year_month"), all.x = TRUE) ##dynamic supply

@@ -53,3 +53,6 @@ GENESIS_2014 <- read.csv("data/GENESIS_2014.csv", sep=";", quote="\"", stringsAs
 SBB_2010_2015 <- read.csv("data/SBB_2010_2015.csv", sep=";", stringsAsFactors = FALSE)
 SBB_unemployment <- read.csv2("data/SBB_unemployment.csv", stringsAsFactors = FALSE)
 SBB_HH_Income <- read.csv2("data/SBB_HH_Income.csv", header = FALSE, stringsAsFactors = FALSE)
+
+#Loading data from Eurostat on arriving passengers at Berlin airports
+Airportarrivals <- read.csv("data/Airportarrivals.csv", sep=";", header = TRUE)
