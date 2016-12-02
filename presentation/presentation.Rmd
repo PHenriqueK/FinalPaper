@@ -63,10 +63,19 @@ source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 *The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.*
 </center>
 
-## Data & Variables {.build}
+## Data Sources {.build}
 
-Data from the **Statistical Information System Berlin/Brandenburg** (SBB), the **Federal Statistical Office and the statistical offices of the Länder** (FSO), **InsideAirbnb.com**, & **Eurostat**.
+Our paper uses data from various sources for the period of 2010 to 2014: 
 
+- **Statistical Information System Berlin/Brandenburg** (SBB)
+
+- **Federal Statistical Office and the statistical offices of the Länder** (FSO)
+
+- **InsideAirbnb.com**
+
+- **Eurostat**
+
+## Main Variables
 Dependent variable: 
 
 $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
