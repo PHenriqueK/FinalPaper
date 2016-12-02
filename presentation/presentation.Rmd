@@ -2,11 +2,9 @@
 title: "The Effect of Airbnb on Hotels: Evidence from Berlin"
 author: "Daniel Murphy & Paulo Kalkhake"
 date: "2 December 2016"
-output: 
-  ioslides_presentation:
-  css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
-  beamer_presentation: default
-  logo: "presentation_figures/HSG_Logo_rgb.png"
+output: ioslides_presentation
+css: styles.css
+logo: presentation_figures/HSG_Logo_rgb.png
 bibliography: bibliography.bib
 ---
 
@@ -33,13 +31,14 @@ source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 ```
 
 ## Airbnb in Berlin
+
 >- 20,000+ Berliners hosted more than half a million guests in 2015
 
 >- Renting out flats as a source of income has become more and more popular.
 
 >- "Zweckentfremdungsverbot" law was passed in May 2014 but only came into force in April 2016.
 
-## Airbnb in Berlin
+## Airbnb in Berlin  {.flexbox .vcenter}
 <img src="presentation_figures/BerlinAirbnb.png" width=650 height=450>
 <br>
 <figcaption> Source: www.insideairbnb.com </figcaption>
@@ -51,15 +50,12 @@ source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 
 >- **Evidence from Texas:** @zervas2016rise found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue.
 
-## Research Question & Hypothesis
-<br>
-<br>
-<br>
+## Research Question & Hypothesis {.build .flexbox .vcenter .bigger}
+
 <center>
 **What is the effect of Airbnb on Hotels in Berlin?**
 <br>
 <br>
-
 *The higher the Airbnb supply in a given district in Berlin, the greater the negative effect on the hotel industry in that same district.*
 </center>
 
@@ -76,18 +72,19 @@ Our paper uses data from various sources for the period of 2010 to 2014:
 - **Eurostat**
 
 ## Main Variables
+
 Dependent variable: 
 
 $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
 
 Main independent variables: 
 
-**Airbnb Supply:** Cumulative sum of new listings
+1. **Airbnb Supply:** Cumulative sum of new listings
 
-**Dynamic Airbnb Supply:**  Active listings based on reviews
+2. **Dynamic Airbnb Supply:**  Active listings based on reviews
 
 
-## Airbnb listings per Neighbourhood (static model) (2010 - 2014)
+## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
 ```{r, echo=FALSE, fig.height=5, fig.width=9}
 
 analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
@@ -100,7 +97,7 @@ ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=nei
 
 ```
 
-## Airbnb listings per Neighbourhood (dynamic model) (2010 - 2014)
+## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
 ```{r, echo=FALSE, fig.height=5, fig.width=9}
 
 danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
@@ -127,13 +124,17 @@ ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
 ##Regression Model
 Fixed Effects (for time and district) to account for unobserved heterogeneity:
 
-> ${\log Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \tau _i + \varepsilon _{it}$
+<div class="centered">
+
+${\log Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \tau _i + \varepsilon _{it}$
+
+</div>
 
 ${X'}$: Control variables (UE rate, average HH income, passengers arriving in Berlin)
 
 ${\tau _i}$: Time and district dummies
 
-##Estimation Results
+##Estimation Results {.flexbox .vcenter .reduced}
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 
@@ -153,7 +154,7 @@ stargazer(ModelI, ModelII, ModelIII,
           out.header = FALSE, 
           model.names = FALSE,
           header = FALSE,
-          add.lines = list(c('District & Time FE?', rep('No', 4))),
+          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes"))),
           align = TRUE,
           type = "html")
 
@@ -162,8 +163,11 @@ stargazer(ModelI, ModelII, ModelIII,
 ## Prelimenary Conclusion
 - Test
 
-## Thank you!
-
-Questions?
+## {.flexbox .vcenter .bigger}
+**Thank you!**
+<br>
+<br>
+<br>
+*Questions?*
 
 ##Further Readings {.smaller}
