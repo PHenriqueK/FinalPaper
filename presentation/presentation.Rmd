@@ -160,8 +160,15 @@ stargazer(ModelI, ModelII, ModelIII,
 
 ```
 
-## Prelimenary Conclusion
-- Test
+## Preliminary Conclusion
+
+- When using fixed effects, there is a significant inverse relationship between Airbnb supply and hotel occupancy rates.
+
+- However, we believe that our limited time period excludes a crucial year (2015) that would help us better understand this relationship.
+
+- Further, the timing of the *Zweckentfremdungsverbot* law's effect is awkward in our time period, expecially since we know it was temporary. 
+
+- Our analysis would have benefitted significantly from data richness similar to that of @zervas2016rise. Imperfect data for Airbnb supply is particularly frustrating. 
 
 ## {.flexbox .vcenter .bigger}
 **Thank you!**
@@ -170,4 +177,4 @@ stargazer(ModelI, ModelII, ModelIII,
 <br>
 *Questions?*
 
-##Further Readings {.smaller}
+##Further Reading {.smaller}
