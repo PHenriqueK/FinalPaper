@@ -92,4 +92,20 @@ print(zp1)
 
 <div class="centered">
   Remember, a lower number (i.e., closer to 1) equates to a higher political interest. 
+
+#creating growth variable
+analysis_simple$growth <- ddply(analysis_simple,"NID",transform, Growth=c(NA,exp(diff(log(AB_supply)))-1))
+analysis_simple$growth[analysis_simple$growth=="NaN"] <- 0
+analysis_simple$growth[analysis_simple$growth=="-Inf"] <- 0
+analysis_simple$growth[analysis_simple$growth=="NA"] <- 0
+analysis_simple$growth[analysis_simple$growth=="Inf"] <- 0
+analysis_simple$growth[is.na(analysis_simple$growth)] <- 0
+
+analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
+
+ggplot(analysis_simple, aes(x=year_month, y=growth.Growth, group=neighbourhood, colour=neighbourhood)) +
+  geom_line(alpha=0.7) + 
+  labs(x="Months", y="Number of Airbnb Listings") + 
+  scale_colour_discrete(name ="Neighbourhood") +
+  scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
 </div>

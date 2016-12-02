@@ -130,7 +130,7 @@ ${\log Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \
 
 </div>
 
-${X'}$: Control variables (UE rate, average HH income, passengers arriving in Berlin)
+${X'}$: Control variables (UE rate, average HH income, air passengers arriving in Berlin)
 
 ${\tau _i}$: Time and district dummies
 
