@@ -21,6 +21,7 @@ data_2010_2014 <- analysis_data[which(analysis_data$year < 2015),]
 data_2010_2014$apt_new[is.na(data_2010_2014$apt_new)] <- 0
 
 #Cumulative sum of new appartments/month per district
+data_2010_2014 <- data_2010_2014[order(data_2010_2014$NID,data_2010_2014$year_month),]
 data_2010_2014$AB_supply <- ave(data_2010_2014$apt_new, data_2010_2014$NID, FUN=cumsum)
 
 #Dropping variables not needed for further analysis
@@ -38,7 +39,8 @@ analysis_simple$log_nights <- log(analysis_simple$nights)
 analysis_simple$log_inc <- log(analysis_simple$avg_inc)
 
 #Create binary variable for Airbnb's official market entry in June 2011
-analysis_simple$marketentry <- ifelse ((as.character(analysis_simple$year_month) < "Juni 2011"), 0, 1)
+analysis_simple$ym <- as.yearmon(analysis_simple$year_month)
+analysis_simple$marketentry <- ifelse((analysis_simple$ym < "Juni 2011"), 0, 1)
 
 #interactionterm
 analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
@@ -46,6 +48,9 @@ analysis_simple$AB_supply_2 <- analysis_simple$AB_supply*analysis_simple$AB_supp
 
 #dummy for district specific market entry 
 analysis_simple$dmarketentry <- ifelse((analysis_simple$AB_supply < 10), 0, 1)
+
+#Create binary variable for passed Zweckentfremdungsverbot in May 2014
+analysis_simple$ZEV <- ifelse((analysis_simple$ym > "Mai 2014"), 0, 1)
 
 ###### Data Prep and descriptive analysis using the dynmic supply ######
 
@@ -55,6 +60,7 @@ ddata_2010_2014 <- life_listings1[which(life_listings1$year < 2015),]
 #Dropping variables not needed for further analysis
 danalysis_simple <- ddata_2010_2014[, c("NID", "neighbourhood", "year_month", "year", "month", "occup_rate", "AB_supply", "avg_inc", "ue_rate", "guests", "beds", "nights", "arrivals" )]
 danalysis_simple$factor_ym <- as.factor(danalysis_simple$year_month)
+danalysis_simple$neighbourhood <- substring(danalysis_simple$neighbourhood, 3)
 
 #Log Airbnb apt supply and hotel occupancy rate
 danalysis_simple$log_ABsupply <- log(danalysis_simple$AB_supply)
@@ -65,8 +71,8 @@ danalysis_simple$log_nights <- log(danalysis_simple$nights)
 danalysis_simple$log_inc <- log(danalysis_simple$avg_inc)
 
 #Create binary variable for Airbnb's official market entry in June 2011
-danalysis_simple$year <- as.numeric(danalysis_simple$year)
-danalysis_simple$marketentry <- ifelse((as.character(danalysis_simple$year_month) < "Juni 2011"), 0, 1)
+danalysis_simple$ym <- as.yearmon(danalysis_simple$year_month)
+danalysis_simple$marketentry <- ifelse((danalysis_simple$ym < "Juni 2011"), 0, 1)
 
 #interactionterm
 danalysis_simple$logABAB <- danalysis_simple$AB_supply*danalysis_simple$log_ABsupply
@@ -79,6 +85,8 @@ danalysis_simple$dmarketentry <- ifelse((danalysis_simple$AB_supply < 10), 0, 1)
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 marketentry_dynamic <- subset(danalysis_simple, analysis_simple$dmarketentry==1)
 
+#Create binary variable for passed Zweckentfremdungsverbot in May 2014
+danalysis_simple$ZEV <- ifelse((danalysis_simple$ym > "Mai 2014"), 0, 1)
 
 ##### Inferent Statistics #####
 LMI <- function(x, y) { 
@@ -90,11 +98,11 @@ LMII <- function(x, y) {
 }
 
 LMIII <- function(x, y) { 
-  (lm(x ~ log_ABsupply + log_inc + ue_rate + dmarketentry + arrivals + NID + factor_ym, data=y))
+  (lm(x ~ 0 +log_ABsupply + log_inc + ue_rate +  arrivals + marketentry + as.factor(NID) + factor_ym, data=y))
 }
 
 LMIV <- function(x, y) { 
-  (lm(x ~ 0 + log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + dmarketentry + arrivals + NID + factor_ym, data=y))
+  (lm(x ~ 0 + log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + arrivals + marketentry + NID + factor_ym, data=y))
 }
 
 LMV <- function(x, y) { 
@@ -102,12 +110,25 @@ LMV <- function(x, y) {
 }
 
 FEI <- function(x, y) { 
-  plm(x ~ log_ABsupply, data=y, index=c("NID", "factor_ym"), model="within")
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
 }
 
 FEII <- function(x, y) {
-  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + dmarketentry, data=y, index=c("NID", "factor_ym"), model="within")
 }
+
+FEIIm <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIz <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + ZEV, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIdm <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + marketentry + dmarketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
 
 FEIIa <- function(x, y) {
   plm(x ~ AB_supply + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
@@ -124,5 +145,5 @@ FEIV <- function(x, y) {
 
 #Introduces a binary variable for Airbnb's official market entry + nonlinear
 FEV <- function(x, y) {
-  plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + dmarketentry + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+  plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
 }

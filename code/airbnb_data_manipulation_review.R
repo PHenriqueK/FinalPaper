@@ -30,19 +30,21 @@ listings$NID [listings$neighbourhood_group_cleansed == "Marzahn - Hellersdorf"] 
 listings$NID [listings$neighbourhood_group_cleansed == "Lichtenberg"] <- 11
 listings$NID [listings$neighbourhood_group_cleansed == "Reinickendorf"] <- 12
 
-#This deletes all Airbnb listings for which there exists no review data and which 
-listings <- listings[!(listings$number_of_reviews == 0), ] 
+#This deletes 5 Airbnb listings for which there are no dates at all
+listings <- listings[!(listings$host_since == "" | is.na(listings$host_since)), ] 
+
+#generate year-month variable
+listings$host_since <- as.yearmon(listings$host_since,"%Y-%m")
+listings$first_review <- as.yearmon(listings$first_review,"%Y-%m")
 
 #Computing listing date (6 months prior to first review)
-listings$listingdate <- as.Date(as.yearmon(as.Date(listings$first_review)) - .5)
+listings$listingdate <- listings$first_review - .5
 
-#Splitting listing date up into its elements
-listings$listingdate <- as.Date(listings$listingdate,"%Y-%m-%d")
-listings <- mutate(listings, date = ymd(listings$listingdate), listing_day = day(date), 
-                   listing_month = month(date), listing_year = year(date))
+#If apartment does not have a first review date, use host since date instead 
+listings$listingdate[is.na(listings$listingdate)] <- listings$host_since[is.na(listings$listingdate)]
 
 #Creating a new yy-mm variable
-listings$year_month <- as.yearmon(listings$listingdate, "%Y-%m")
+listings$year_month <- listings$listingdate
 
 #Creating a counting variable
 listings$count <- 1
@@ -59,21 +61,16 @@ agg_listings_merge <- agg_listings
 ##### Computing dynamic Airbnb supply #####
 reviews <- Airbnb_Reviews
 
-reviews$date <- as.Date(reviews$date,"%Y-%m-%d")
-
-#Splitting reviews date up into its elements
-reviews <- mutate(reviews, date = ymd(reviews$date), rev_day = day(date), rey_month = month(date), rev_year = year(date))
-
 #Creating a new yy-mm variable
-reviews$rev_year_month <- as.yearmon(reviews$date, "%Y-%m")
+reviews$rev_year_month <- as.yearmon(reviews$date,"%Y-%m")
 
 reviews$count <- 1
 
-agg_reviews <- tally(group_by(reviews, listing_id, rev_year_month, rev_year))
+agg_reviews <- tally(group_by(reviews, listing_id, rev_year_month))
 
-names(agg_reviews) <- c("id", "rev_year_month", "rev_year", "new_reviews")
+names(agg_reviews) <- c("id", "rev_year_month", "new_reviews")
 
-agg_reviews <- agg_reviews[which(agg_reviews$rev_year < 2015),]
+agg_reviews <- agg_reviews[which(agg_reviews$rev_year_month < "Jan 2015"),]
 
 agg_reviews$new_reviews[agg_reviews$new_reviews >= "1"] <- 1
 
@@ -89,19 +86,11 @@ lifecycle_NID <- merge(lifecycle, id_NID, by = c("id"), all = TRUE)
 lifecycle_NID$new_reviews[is.na(lifecycle_NID$new_reviews)] <- 0
 
 #Computing listing date (6 months prior to first review)
-lifecycle_NID$listingdate <- lifecycle_NID$first_review
+lifecycle_NID$year_month <- lifecycle_NID$first_review
 
-#Splitting listing date up into its elements
-lifecycle_NID$listingdate <- as.Date(lifecycle_NID$listingdate,"%Y-%m-%d")
-lifecycle_NID <- mutate(lifecycle_NID, date = ymd(lifecycle_NID$listingdate), listing_day = day(date), 
-                        listing_month = month(date), listing_year = year(date))
+lifecourse <- lifecycle_NID[, c("id", "NID", "rev_year_month", "year_month", "new_reviews")]
 
-#Creating a new yy-mm variable
-lifecycle_NID$year_month <- as.yearmon(lifecycle_NID$listingdate, "%Y-%m")
-
-lifecourse <- lifecycle_NID[, c("id", "NID", "rev_year_month", "year_month", "listing_year", "new_reviews")]
-
-lifecourse <- lifecourse[which(lifecourse$listing_year < 2015),]
+lifecourse <- lifecourse[which(lifecourse$year_month < "Jan 2015"),]
 
 lifecourse$life <- rollmean(lifecourse$new_reviews, 7, na.pad = TRUE, align = "left")
 

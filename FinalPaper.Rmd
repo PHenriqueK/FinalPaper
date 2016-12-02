@@ -109,21 +109,10 @@ Airbnb`s popularity amongst users and hosts has increased substantially since it
 
 ```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
 
-ggplot(analysis_simple, aes(x=log_ABsupply, y=occup_rate)) +
-    geom_point(alpha=0.5, color="#c0392b") +
-    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
-    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
 
 ```
 
 ```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
-
-NID_Subset <- subset(marketentry_static, marketentry_static$month==12)
-
-Graph2 <- ggplot(NID_Subset, aes(x=year, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
-    geom_line(alpha=0.7) + 
-    labs(x="Year", y="Number of Airbnb Listings")
-Graph2 + scale_colour_discrete(name  ="Neighbourhood")
 
 ```
 
