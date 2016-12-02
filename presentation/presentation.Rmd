@@ -85,7 +85,7 @@ Main independent variables:
 
 
 ## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=5, fig.width=9}
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
 
 analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
 
@@ -98,7 +98,7 @@ ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=nei
 ```
 
 ## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=5, fig.width=9}
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
 
 danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
 
@@ -111,7 +111,7 @@ ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=ne
 ```
 
 ## Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
-```{r, echo=FALSE, fig.height=4, fig.width=8}
+```{r, echo=FALSE, fig.height=3.8, fig.width=8}
 marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 
@@ -160,13 +160,31 @@ stargazer(ModelI, ModelII, ModelIII,
 
 ```
 
+##Estimation Results (2) ## {.flexbox .vcenter .reduced}
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+ModelIV <- FEV(analysis_simple$occup_rate, analysis_simple)
+
+stargazer(ModelIV, 
+          digits = 3, 
+          covariate.labels = c("Airbnb Listings", "Sqrd. Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"), 
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          dep.var.labels = c("Occupancy Rate"),
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          add.lines = list(c('District/Time FE?', rep('Yes', 4))),
+          align = FALSE,
+          type = "html")
+
+```
+
 ## Preliminary Conclusion & Limitations
 
-- Our model suggests a significant inverse relationship between *Log* Airbnb supply and hotel occupancy rates
+>- Our model suggests a significant inverse relationship between *Log* Airbnb supply and hotel occupancy rates
 
-- Our limited time period excludes a crucial year (2015). 
+>- Our limited time period excludes a crucial year (2015). 
 
-- The timing of the *Zweckentfremdungsverbot* law's effect is leads to skewed Airbnb supply in our time period.
+>- The timing of the *Zweckentfremdungsverbot* law's effect is leads to skewed Airbnb supply in our time period.
 
 ## {.flexbox .vcenter .bigger}
 **Thank you!**
