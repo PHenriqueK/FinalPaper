@@ -39,8 +39,8 @@ analysis_simple$log_nights <- log(analysis_simple$nights)
 analysis_simple$log_inc <- log(analysis_simple$avg_inc)
 
 #Create binary variable for Airbnb's official market entry in June 2011
-analysis_simple$ym <- as.yearmon(analysis_simple$year_month)
-analysis_simple$marketentry <- ifelse((analysis_simple$ym < "Juni 2011"), 0, 1)
+analysis_simple$seqym <- ave(analysis_simple$AB_supply, analysis_simple$NID, FUN = seq_along)
+analysis_simple$marketentry <- ifelse((analysis_simple$seqym < 18), 0, 1)
 
 #interactionterm
 analysis_simple$logABAB <- analysis_simple$AB_supply*analysis_simple$log_ABsupply
@@ -50,7 +50,7 @@ analysis_simple$AB_supply_2 <- analysis_simple$AB_supply*analysis_simple$AB_supp
 analysis_simple$dmarketentry <- ifelse((analysis_simple$AB_supply < 10), 0, 1)
 
 #Create binary variable for passed Zweckentfremdungsverbot in May 2014
-analysis_simple$ZEV <- ifelse((analysis_simple$ym > "Mai 2014"), 0, 1)
+analysis_simple$ZEV <- ifelse((analysis_simple$seqym > 52), 1, 0)
 
 ###### Data Prep and descriptive analysis using the dynmic supply ######
 
@@ -94,7 +94,7 @@ LMI <- function(x, y) {
 }
 
 LMII <- function(x, y) { 
-  (lm(x ~ AB_supply + log_inc + ue_rate + dmarketentry + arrivals + NID + factor_ym, data=y))
+  (lm(x ~ 0 + log_ABsupply + log_inc + ue_rate + arrivals + as.factor(NID) + factor_ym, data=y))
 }
 
 LMIII <- function(x, y) { 

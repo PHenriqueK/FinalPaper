@@ -14,7 +14,6 @@ knitr::opts_chunk$set(echo = FALSE)
 library(ggplot2)
 library(plm)
 library(stargazer)
-library(scales)
 library(zoo)
 
 # Set working directory
@@ -137,24 +136,43 @@ ${\tau _i}$: Time and district dummies
 ##Estimation Results {.flexbox .vcenter .reduced}
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+LMII <- function(x, y, z) { 
+  (lm(x ~ 0 + z + log_inc + ue_rate + as.factor(NID) + factor_ym, data=y))
+}
 
-ModelI <- LMIII(analysis_simple$occup_rate, analysis_simple)
+FEIa <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate, data=y, index=c("NID", "factor_ym"), model="within")
+}
 
-ModelII <- FEI(analysis_simple$occup_rate, analysis_simple)
+FEI <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
 
-ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple)
+FEIIm <- function(x, y, z) {
+  plm(x ~ z + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
 
-stargazer(ModelI, ModelII, ModelIII,
+ModelI <- LMII(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelI, ModelIa, ModelII, ModelIII,
           digits = 3, 
           covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
-          omit = c("NID", "factor_ym"),           
+          omit = c("NID", "factor_ym"),  
+          column.labels   = c("LM (1)", "FE (2)", "FE (3)", "FE (4)"),
+          model.numbers = FALSE,
           omit.stat = c('f', 'ser'), # to nicely fits on the page
           omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
           dep.var.labels = c("Occupancy Rate"),
           out.header = FALSE, 
           model.names = FALSE,
           header = FALSE,
-          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes"))),
+          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
           align = TRUE,
           type = "html")
 
@@ -162,7 +180,12 @@ stargazer(ModelI, ModelII, ModelIII,
 
 ##Estimation Results (2) ## {.flexbox .vcenter .reduced}
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
-ModelIV <- FEV(analysis_simple$occup_rate, analysis_simple)
+#Introduces a binary variable for Airbnb's official market entry + nonlinear
+FEV <- function(x, y) {
+  plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+ModelIV <- FEV(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
 
 stargazer(ModelIV, 
           digits = 3, 

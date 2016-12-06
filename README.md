@@ -10,6 +10,10 @@ Latest Update: November 18, 2016
 
 This repository contains the material for the Collaborative Research Project in Introduction to Collaborative Social Science Data Analysis (MPP-E1180) @HSoG Berlin. We seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin, using a Regression Discontinuity Model (RDM).
 
+#TO DO 
+- USE POOLED OLS
+- MAP WITH EVERY DISTRICT AND DENSITY COMPARING 2010 and 2014
+
 ###Repository Files
 
 In addition to this readme file, there are 11 files in this repository.

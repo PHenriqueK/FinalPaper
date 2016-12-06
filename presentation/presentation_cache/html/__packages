@@ -1,9 +1,14 @@
 base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
 ggplot2
 Formula
 plm
 stargazer
-scales
 zoo
 reshape
 reshape2
