@@ -2,7 +2,7 @@
 ---
 title: 'AirbnBerlin'
 subtitle: 'Copping that Hotel Swag'
-author: |
+authors: |
         | Paulo Kalkhake & Dan Murphy
         | Hertie School of Governance
 output: 
@@ -13,7 +13,7 @@ output:
       collapsed: true
     theme: journal
     highlight: monochrome
-bibliography: library.bib
+bibliography: Bibliography.bib
 
 ---
 
