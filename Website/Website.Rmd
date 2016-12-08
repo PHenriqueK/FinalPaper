@@ -1,0 +1,166 @@
+
+---
+title: 'AirbnBerlin'
+subtitle: 'Copping that Hotel Swag'
+author: |
+        | Paulo Kalkhake & Dan Murphy
+        | Hertie School of Governance
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      smooth_scroll: true
+      collapsed: true
+    theme: journal
+    highlight: monochrome
+bibliography: library.bib
+
+---
+
+```{r chunk_options, echo=FALSE}
+knitr::opts_chunk$set(cache=TRUE, fig.path = "images/")
+```
+
+## Airbnb has changed the accomodation industry forever
+
+## How big is Airbnb in Berlin?
+
+### Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+
+analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
+
+ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    labs(x="Months", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood") +
+    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
+
+```
+
+****Insert Cool Map of Berlin here****
+
+### But remember, Berlin's popularity increased over the same period
+****Insert Descriptive graph of popularity control****
+
+## So, is Airbnb hurting hotels in Berlin?
+### Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
+```{r, echo=FALSE, fig.height=3.8, fig.width=8}
+marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
+marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
+
+ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+```
+
+### Estimation Results {.flexbox .vcenter .reduced}
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+LMII <- function(x, y, z) { 
+  (lm(x ~ 0 + z + log_inc + ue_rate + as.factor(NID) + factor_ym, data=y))
+}
+
+FEIa <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEI <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIm <- function(x, y, z) {
+  plm(x ~ z + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+ModelI <- LMII(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelI, ModelIa, ModelII, ModelIII,
+          digits = 3, 
+          covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
+          omit = c("NID", "factor_ym"),  
+          column.labels   = c("LM (1)", "FE (2)", "FE (3)", "FE (4)"),
+          model.numbers = FALSE,
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
+          dep.var.labels = c("Occupancy Rate"),
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
+          align = TRUE,
+          type = "html")
+
+```
+
+### Estimation Results (2) ## {.flexbox .vcenter .reduced}
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+#Introduces a binary variable for Airbnb's official market entry + nonlinear
+FEV <- function(x, y) {
+  plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+ModelIV <- FEV(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelIV, 
+          digits = 3, 
+          covariate.labels = c("Airbnb Listings", "Sqrd. Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"), 
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          dep.var.labels = c("Occupancy Rate"),
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          add.lines = list(c('District/Time FE?', rep('Yes', 4))),
+          align = FALSE,
+          type = "html")
+
+```
+
+
+## What else is Airbnb doing to our cities?
+
+
+
+
+
+
+
+## Useful table format
+
+                    not reelected   reelected
+------------------ --------------  ----------
+  non-board member      182 (17%)   866 (83%)
+      board-member       41 (14%)   252 (86%)
+
+## Usefule References Format
+
+[^1]: The presented research project is part of a paper project by Guillermo Rosas (Washington University in St. Louis) and Jonas Markgraf (Hertie School of Governance Berlin).
+
+[^2]: Spanish public savings banks (*cajas*) faltered and dissolved in the course of the bursting Spanish real estate bubble ([link](http://voxeu.org/article/five-lessons-spanish-cajas-debacle-new-euro-wide-supervisor)); similarly, German *Landesbanken* got into serious trouble and were partly consolidated ([link](http://www.sueddeutsche.de/geld/fehlspekulationen-der-landesbanken-chronologie-einer-krise-1.283250) (in German)). At the same time, German *Sparkassen* weathered the financial crisis well and emerged strengthened from it ([link](http://www.telegraph.co.uk/finance/financialcrisis/3190674/Financial-crisis-boosts-German-banks.html)). This heterogeneous crisis performance of public banks remains largely unexplained and motivates the PhD project of one of the authors.
+
+
+
+
+
+
+
+Begin to create a website for your project with RMarkdown and graphics (either static or interactive).
+
+If relevant include:
+
+A table of key results
+
+A googleVis map
+
+A bar or line chart with plotly or other package
+
+A simulation plot created with Zelig or other tool showing key results from your analysis.
+
+Push to the gh-pages branch.
+
