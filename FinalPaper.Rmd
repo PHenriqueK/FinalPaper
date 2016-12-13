@@ -99,7 +99,7 @@ From the Federal Statistical Office and the statistical offices of the Länder (
 
 From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or rooms, for Berlin from August, 2008 until October, 2015. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. This data set contained 92 variables for each listing covering topics ranging from room price to information on the host. For our purposes, the key variables were (1) the neighbourhood of each listing, (2) the date that an Airbnb host signed up, and (3) the date of the first review of each listing [@Airbnb:2016aa].
 
-From Eurostat, we gathered monthly data on the number of passengers to arrive in Berlin's two major airports, Tegel and Schonefeld. We use this data to construct a variable that combines the arrivals to both airports every month. In keeping with the @zervas2016rise methodology, we use this variable as our control for the dramatic increase in the popularity of Berlin. 
+From Eurostat [-@yearbook2015eurostat], we gathered monthly data on the number of passengers to arrive in Berlin's two major airports, Tegel and Schonefeld. We use this data to construct a variable that combines the arrivals to both airports every month. In keeping with the @zervas2016rise methodology, we use this variable as our control for the dramatic increase in the popularity of Berlin. 
 
 Our analysis also includes a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market [@TNW:2011aa]. 
 
@@ -203,7 +203,9 @@ ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log
 
 ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
 
-stargazer(ModelI, ModelIa, ModelII,
+ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelI, ModelIa, ModelII, ModelIII,
           digits = 3, 
           covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
           omit = c("NID", "factor_ym"),  
@@ -216,7 +218,6 @@ stargazer(ModelI, ModelIa, ModelII,
           model.names = FALSE,
           header = FALSE,
           add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
-          align = TRUE,
           type = "latex")
 
 ```
