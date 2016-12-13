@@ -117,7 +117,7 @@ The final data set covers 720 monthly obversations across twelve districts in Be
 
 ## Methodology & Analysis
 ### Descriptive Analysis
-Airbnb`s popularity in Berlin has exploded since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo consolidated the Berlin flatsharing industry into one well-known name. As Berlin's increase in popularity coincided with the rise of Airbnb, many Berliners used the site to list apartments and rooms. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has dramatically increased since 2010. 
+Airbnb`s popularity in Berlin has significantly increased since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo consolidated the Berlin flatsharing industry into one well-known name. As Berlin's increase in popularity coincided with the rise of Airbnb, many Berliners used the site to list apartments and rooms. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has dramatically increased since 2010. 
 
 In Figure 1, we can see the growth in Cumulative Airbnb Supply in each neighbourhood from 2010 to 2014. Each of the most popular neighbourhoods (Friedrichshain-Kreuzberg, Mitte, Pankow, & Neukoelln) is shown to have more than 1,500 listings by 2014. Growth is shown to accelerate in the city's most popular disticts each year, and Friedichshain-Kreuzberg's total number of listings is well above 2,500 by the end of 2014. 
 
@@ -163,14 +163,12 @@ ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
 
 ```
 
-
-
 ##Inferential Analysis
 > The key identification assumption we have to make to support a causal interpretation of this DD estimate is that there are no unobserved, time-varying, city-specific factors that are correlated with both Airbnb entry and hotel room revenue. Stated differently, we assume that unobserved factors that could potentially jointly affect both Airbnb adoption and hotel room revenue do not systematically vary both between different cities and over time.
 
-Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis focuses on hotel occupancy rates. We calculated these  Also unlike the model used by @zervas2016rise, our analysis cannot take advantage of a treatment and control region accounting for the different Airbnb market entry patterns.
+As discussed above, our analysis differs from that of @zervas2016rise in that we cannot use hotel revenue as our main unit of analysis due to data limitations. Instead, our analysis focuses on hotel occupancy rates. However our methodology differs from Zervas as well. Our analysis cannot take advantage of a treatment and control region accounting for different Airbnb market entry patterns. Instead, we use regional fixed effects to account for time-invariant differences in hotel occupancies in each region. 
 
-Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occupancies main specification for our proposal would look like this:
+The main specification for our proposal would look like this:
 
 > (1) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
