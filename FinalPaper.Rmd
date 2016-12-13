@@ -117,21 +117,9 @@ The final data set covers 720 monthly obversations across twelve districts in Be
 
 ## Methodology & Analysis
 ### Descriptive Analysis
-Airbnb`s popularity in Berlin has exploded since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo consolidated the Berlin flatsharing industry into one well-known name. As Berlin's increase in popularity coincided with the rise of Airbnb, many Berliners used the site to list apartments and rooms. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has dramatically increased since 2010. In order to take a sneak peek at this relationship, we plotted the log of the dynamic Airbnb supply against hotel occupancy rates. We chose to work with the log of Airbnb supply here in order to normalize the distribution, which was otherwise quite skewed. Yet upon doing so, we were surprised to see a clear positive correlation and a correlation coeffecient of 0.343 *(cf. Figure 1)*. Upon reflection, we realized the importance of controlling for the increased popularity of Berlin in our time period. for the remainder of our analysis, this will be one of our key control variables.
+Airbnb`s popularity in Berlin has exploded since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo consolidated the Berlin flatsharing industry into one well-known name. As Berlin's increase in popularity coincided with the rise of Airbnb, many Berliners used the site to list apartments and rooms. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has dramatically increased since 2010. 
 
-```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)'}
-
-marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
-marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
-
-ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
-    geom_point(alpha=0.5, color="#c0392b") +
-    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
-    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
-
-```
-
-Before moving forward with our inferential analysis, we took a closer look at our two measures of Airbnb supply. We wanted to understand the different results of our supply measurements, and to understand how these might affect our inferential analysis. Upon plotting the neighbourhood specific Airbnb supply in 
+In Figure 1, we can see the growth in Cumulative Airbnb Supply in each neighbourhood from 2010 to 2014. Each of the most popular neighbourhoods (Friedrichshain-Kreuzberg, Mitte, Pankow, & Neukoelln) is shown to have more than 1,500 listings by 2014. Growth is shown to accelerate in the city's most popular disticts each year, and Friedichshain-Kreuzberg's total number of listings is well above 2,500 by the end of 2014. 
 
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Cumulative Airbnb Supply per Neighbourhood (2010 - 2014)'}
 
@@ -145,6 +133,7 @@ ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=nei
 
 ```
 
+However in Figure 2, we can see that our Dynamic Airbnb Supply tells a slightly different story. In mid-2014 we see Airbnb supply peak in each district before falling dramatically in the second half of the year. Indeed, Friedrichshain-Kreuzberg's supply even appears to drop below it's supply level at the start of the year. Upon closer examination, the supply peak appears to coincide with the passage of the *Zweckentfremdungsverbot* (Airbnb misuse law) in the summer of 2014. This highly publicized law prohibited listing full apartments on Airbnb in Berlin, but allowed the continued listing of individual rooms. However, the law did not come into effect until 2016, and *InsideAirbnb.com* data from 2015 shows that Airbnb supply came back stonger than ever immediately following our obervation period. These considerations led us to conclude that it was better to use our Cumulative Airbnb Supply variable for our inferential analysis. Despite the shortcomings of the cumulative variable, it more accurately represents the overall supply growth of Airbnb in Berlin, which both variables likely understate anyway due to the 33 percent of Airbnb guests who do not leave reviews [@fradkin2015bias].
 
 ```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Dynamic Airbnb Supply per Neighbourhood (2010 - 2014)'}
 
@@ -158,9 +147,22 @@ ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=ne
 
 ```
 
-ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
+In order to take a first look at the relationship between Airbnb supply and hotel occupancy rates, we plotted the log of Airbnb supply against hotel occupancy rates. We chose to work with the log of Airbnb supply here in order to normalize the distribution, which was otherwise quite skewed. We refrained from taking the log of hotel occupancy rates since they are smaller than one, and appear to have a fairly normal distribution. 
 
-@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We replicated this approach by using Eurostat data on the number of passengers arriving at Berlin's two major airports. Upon cleaning this data, we see an increase of _____________ in the number of passengers arriving in Berlin. Additionally, we will incorporate a time specific trend to account for unobserved heterogeneity. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that the increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
+Upon plotting this relationship, we were surprised to see a clear positive correlation and a correlation coeffecient of 0.343 *(cf. Figure 3)*. We believe this counterintuitive result is likely due to an omitted variable that is driving hotel occupancy rates. Given the increase in Berlin's popularity, we identified increased accomodation demand in general as the most likely suspect. @zervas2016rise controlled for this effect by using the number of passengers listing the local airport as their final destination. We replicated this approach by using Eurostat data on the number of passengers arriving at Berlin's two major airports. Upon cleaning this data, we see an increase of _____________ in the number of passengers arriving in Berlin. Additionally, our inferential analysis will incorporate a time specific trend to account for unobserved heterogeneity. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that incorporating the proper controls into our model will eliminate the positive correlation we observe here.
+
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)'}
+
+marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
+marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
+
+ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+
+```
+
 
 
 ##Inferential Analysis
