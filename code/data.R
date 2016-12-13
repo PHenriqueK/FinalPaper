@@ -10,10 +10,6 @@
 # remove objects from the specified environment
 rm(list=ls())  
 
-# Set working directory
-try(setwd("/Users/Paulo/GitHub/FinalPaper/"),silent=TRUE)
-try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/"),silent=TRUE)
-
 # Load Packages: credits to Wickham Hadley, Xie Yihui, Frank Harrell Jr, Philippe Grosejan & Frederic Ibanez and others
 # (install when needed)
 
