@@ -27,6 +27,7 @@ suppressPackageStartupMessages(library(googleVis))
 ``` {r, include=FALSE, results='asis'}
 source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 ```
+
 <br>
 <br>
 ***Airbnb claims to be part of the sharing and disrupting the hotel industry. However, data shows that the majority of Airbnb listings in most cities are entire homes, many of which are rented all year round - disrupting housing and communities. Browse the data for Berlin below, and see for yourself.***
