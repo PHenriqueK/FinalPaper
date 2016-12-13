@@ -20,6 +20,7 @@ source('data.R')
 #Import "reviews.csv" from insideairbnb.com
 #Airbnb_Reviews <- read.csv("http://data.insideairbnb.com/germany/be/berlin/2015-10-03/visualisations/reviews.csv")
 
-Airbnb_Reviews <- read.csv("http://data.insideairbnb.com/germany/be/berlin/2015-10-03/visualisations/reviews.csv")
+#Airbnb_Reviews <- read.csv("http://data.insideairbnb.com/germany/be/berlin/2015-10-03/visualisations/reviews.csv")
+Airbnb_Reviews <- read.csv("data/reviews.csv")
 
 Detailed_Listings <- read.csv("data/listings.csv")
