@@ -1,3 +1,21 @@
+library(ggmap)
+berlinmap <- qmap("Berlin", zoom = 12, maptype = "toner", source = "stamen")
+
+FinalMap <- berlinmap +
+  geom_point(aes(x = longitude, y = latitude),
+             data = Detailed_Listings) +
+  #geom_point(aes(x = stations$coords.x1, y = stations$coords.x2), data = stations) +
+  xlab('') + ylab('') +
+  theme(axis.ticks = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank())
+
+print(FinalMap)
+
+cor(analysis_simple$AB_supply, analysis_simple$occup_rate) 
+
+
+
 ModelI <- LMI(danalysis_simple$log_nights, danalysis_simple)
 summary(ModelI)
 
@@ -109,3 +127,64 @@ ggplot(analysis_simple, aes(x=year_month, y=growth.Growth, group=neighbourhood, 
   scale_colour_discrete(name ="Neighbourhood") +
   scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
 </div>
+  
+  
+  ##### Inferent Statistics #####
+LMI <- function(x, y) { 
+  (lm(x ~ log_ABsupply + NID + factor_ym, data=y))
+}
+
+LMII <- function(x, y) { 
+  (lm(x ~ 0 + log_ABsupply + log_inc + ue_rate + arrivals + as.factor(NID) + factor_ym, data=y))
+}
+
+LMIII <- function(x, y) { 
+  (lm(x ~ 0 +log_ABsupply + log_inc + ue_rate +  arrivals + marketentry + as.factor(NID) + factor_ym, data=y))
+}
+
+LMIV <- function(x, y) { 
+  (lm(x ~ 0 + log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + arrivals + marketentry + NID + factor_ym, data=y))
+}
+
+LMV <- function(x, y) { 
+  (lm(x ~ 0 + AB_supply + AB_supply_2 + log_inc + ue_rate + dmarketentry + arrivals + NID + factor_ym, data=y))
+}
+
+FEI <- function(x, y) { 
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEII <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + dmarketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIm <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIz <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + ZEV, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIdm <- function(x, y) {
+  plm(x ~ log_ABsupply + log_inc + ue_rate + arrivals + marketentry + dmarketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+
+FEIIa <- function(x, y) {
+  plm(x ~ AB_supply + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIII <- function(x, y) {
+  plm(x ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+#Introduces a binary variable for Airbnb's official market entry
+FEIV <- function(x, y) {
+  plm(x ~ log_ABsupply + AB_supply + logABAB + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+#Introduces a binary variable for Airbnb's official market entry + nonlinear
+FEV <- function(x, y) {
+  plm(x ~ AB_supply + AB_supply_2 + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}

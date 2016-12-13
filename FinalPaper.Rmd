@@ -1,24 +1,35 @@
 ---
-title: "The Effect of Airbnb on Hotels: Evidence from Berlin"
-subtitle: 'Final Paper for Introduction to Collaborative Social Science Data Analysis'
-author: "Daniel J Murphy & Paulo H Kalkhake"
-date: "December 9, 2016"
-output: pdf_document
-toc: FALSE
-bibliography: Bibliography.bib
+title: "The Effect of Airbnb on Hotels"
+subtitle: "Evidence from Berlin"
+  - Evidence and Policy Recommendations for Germany ^[Final Paper for Introduction to Collaborative Social Science Data Analysis taught by Christopher Gandrud.]
+author: 
+  - Paulo H. Kalkhake ^[Matriculation N° 147 153, p.kalkhake@mpp.hertie-school.org]
+  - Daniel J. Murphy
+date: "15 December 2016"
+output: 
+  pdf_document: 
+linestretch: 1.5
 number_sections: TRUE
+keep_tex: true
+latex_engine: pdflatex
 fig_caption: TRUE
 inline_notes: TRUE
-linestretch: 1.3
-csl: international-economic-journal.csl
+geometry: top=2cm, right=3cm, left=3cm, bottom=3cm
+bibliography: Bibliography.bib
+abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+documentclass: article
+csl: "finalpaper/apa.csl"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache=TRUE}
 knitr::opts_chunk$set(dev = 'pdf')
 
 # Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
 try(setwd("/Users/djm113/Documents/GitHub/FinalPaper"),silent=TRUE)
+
+# Dynamical Link to Data/Packages R script file (takes some time!)
+source("code/finalpaper_analysis.R")
 
 #loading graphs packages
 library(ggplot2)
@@ -49,63 +60,54 @@ library(texreg)
 library(stargazer)
 library(foreign)
 library(gplots)
-
-figcap <- captioner(prefix = "Figure", auto_space = TRUE, levels = 1, type = NULL)
-tablecap <- captioner(prefix = "Table", auto_space = TRUE, levels = 1, type = NULL)
-
 ```
-
-```{r, cache=TRUE}
-# Dynamical Link to Data/Packages R script file (takes some time!)
-source("code/finalpaper_analysis.R")
-
-```
-
-# Abstract
 
 \newpage
-#Introduction
+
+##Introduction
 
 Airbnb is a young company that has revolutionized the accomodation industry in much the same way that Uber has revolutionized transportation. It is an online platform that allows "hosts" to share their home or a rental home with travelers. For hosts, using Airbnb can be a valuable source of extra income. For guests, Airbnb provides accomodations that allows travelers to both save money and have a more authentic experience during their stay. Airbnb guests often remark that they interacted with their hosts and felt more like a local than a tourist. Indeed, Airbnb's recent "Don't Go There, Live There" advertising campaign reflects their philosophy in reshaping the accomodation industry. 
 
 In Berlin more than 20,000 hosts have been active over the past year, hosting more than half a million guests. According to Airbnb, their presence in Berlin brings more economic activity to the city, particularly to neighborhoods outside of the main hotel districts. Yet, Airbnb's entry in Berlin has been highly controversial. In 2014, the city passed a law that forbade renting out entire apartments to tourists on Airbnb. This came in response to an unprecedented 56 percent rise in rents in Berlin between 2009 and 2014, for which Airbnb and other online hosting platforms received some of the blame [@France-Presse:2016aa]. The city's law was widely welcomed by Berliners hoping to slow the forces of gentrification, but it was also welcomed by another Airbnb victim in Berlin; the hotel industry.
 
-In Berlin and around the world, the hotel industry has been quietly fighting a battle of their own against Airbnb. Airbnb represents an unprecedented challenge for the long-time incumbents, whose average price of 80 euros per night in Berlin cannot compete with the average Airbnb price of 55 euros per night [@Alsino-Skowronnek:2015aa]. Moreover, Airbnb enjoys some real advantages over the hotel industry due to its new, still largely unregulated business model. For example, its informal business model has thus far allowed it to avoid the taxes and regulations that hotels and other traditional accomodation providers have to deal with [@guttentag2015airbnb]. For their part, Airbnb claims that their service is complementary to hotels. They point out that most of their listings (77 percent in Berlin) are outside of cities' main hotel districts [@Airbnb:2015aa]. Airbnb guests are also more likely to stay at the host's property long term than a hotel guest is, and it is not uncommon to find Airbnb listing that are rented out to the same guest for a month or longer. Yet despite these differences, many believe there must be some "Airbnb effect" on the hotel industry. A paper by @zervas2016rise found that the rise of Airbnb had a negative effect on hotel revenue in the state of Texas. This shows that, while Airbnb may be complementary, they also compete with the incumbent hotel industry. 
+While Berliners fought tourists for apartments, the hotel industry has been quietly fighting a battle of their own against Airbnb. Airbnb represents an unprecedented challenge for the long-time incumbents, whose average price of 80 euros per night in Berlin cannot compete with the average Airbnb price of 55 euros per night [@Alsino-Skowronnek:2015aa]. Moreover, Airbnb enjoys some real advantages over the hotel industry due to its new, still largely unregulated business model. For example, its informal business model has thus far allowed it to avoid the taxes and regulations that hotels and other traditional accomodation providers have to deal with [@guttentag2015airbnb]. For their part, Airbnb claims that their service is complementary to hotels. They point out that most of their listings (77 percent in Berlin) are outside of cities' main hotel districts [@Airbnb:2015aa]. Airbnb guests are also more likely to stay at the host's property long term than a hotel guest is, and it is not uncommon to find Airbnb listing that are rented out to the same guest for a month or longer. Yet despite these differences, many believe there must be some "Airbnb effect" on the hotel industry. A paper by @zervas2016rise found that the rise of Airbnb had a negative effect on hotel revenue in the state of Texas. This shows that, while Airbnb may be complementary, they also compete with the incumbent hotel industry. 
 
-In this paper we will seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin. To that end, this paper will proceed as follows. First, we will review the relevant literature in the field and outline our hypotheses going forward. Second, we will discuss the data sources and variables that we will use to explore this relationship. Third, we will outline the methology we use in this study and describe our model in detail. Fourth, we will analyze the data both descriptively and inferentially to evaluate our hypotheses. Finally, we will discuss our results, the policy implications of our findings, and opporunities for future research. 
+In this paper we will seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin. To that end, this paper will proceed as follows. First, we will review the relevant literature in the field and outline our hypothesis going forward. Second, we will discuss the data sources and variables that we will use to explore this relationship. Third, we will outline the methology we use in this study and describe our model in detail. Fourth, we will analyze the data both descriptively and inferentially to evaluate our hypotheses. Finally, we will discuss our results, the policy implications of our findings, and opporunities for future research. 
 
-# Literature Review
-While the literature on the effect of Airbnb on hotels is quite limited, there is a diverse body of literature available on different aspects of Airbnb's business. In @zervas2015first, the authors explore user ratings on Airbnb and TripAdvisor. They find that the average user rating of Airbnb is significantly higher than that of the average hotel on TripAdvisor, 4.5 out of 5 stars compared to 3.8 out of 5 stars, respectively. They theorize that Airbnb hosts, being more entrepreneurial than their hotelier competitors, go above and beyond to ensure that they recieve good reviews that bolster their individual "brand". Along similar lines, @gutt2015sharing investigated how Airbnb hosts change their prices in response to their first review. They found that increased "rating visibility" causes hosts to raise their prices by an average of 2.69 euros. 
-
-In Berlin, much literature and discussion has focused on the impact of Airbnb on rents in the city. @schafer2016misuse, for example, found that 5,555 residential apartments are currently being misused for Airbnb in Berlin. However, as the *Zweckentfremdungsverbot* (Airbnb misuse law) came into effect this year, the main focus of this issue is likely to be enforcement going forward. 
+##Literature Review
+While the literature on the effect of Airbnb on hotels is quite limited, there is a diverse body of literature available on different aspects of Airbnb's business. In Berlin, much literature and discussion has focused on the impact of Airbnb on rents in the city. @schafer2016misuse, for example, found that 5,555 residential apartments are currently being misused for Airbnb in Berlin. However, as the *Zweckentfremdungsverbot* (Airbnb misuse law) came into effect this year, the main focus of this issue is likely to be enforcement going forward. 
 
 Like Uber, Airbnb has also been widely praised for providing a more personalized experience for consumers in an industry that they might not have expected to find it before. In both @yannopoulou2013user and @guttentag2015airbnb, the authors find that the desire for a personalized user experience has played a role in the rise of Airbnb and has changed the very nature of the accomodation and tourism industry. A working paper by @storsmotives shows that this trend extends to Berlin, and indicates that the motives for a tourist to use Airbnb rather than a hotel are both monetary and otherwise. In fact, the Stors & Kagermeier found that guests' expectations of having a more authentic, personal experience during their stay were just as important as their monetary concerns. This suggests that the hotel industry in Berlin is not only being undercut in pricing, but also outclassed in the experience they provide.
 
+In @zervas2015first, the authors explore user ratings on Airbnb and TripAdvisor. They find that the average user rating of Airbnb is significantly higher than that of the average hotel on TripAdvisor, 4.5 out of 5 stars compared to 3.8 out of 5 stars, respectively. They theorize that Airbnb hosts, being more entrepreneurial than their hotelier competitors, go above and beyond to ensure that they recieve good reviews that bolster their individual "brand". Along similar lines, @gutt2015sharing investigated how Airbnb hosts change their prices in response to their first review. They found that increased "rating visibility" causes hosts to raise their prices by an average of 2.69 euros. 
+
 In @guttentag2015airbnb, the author argues that while many points discounting Airbnb's ability to compete with the traditional accomodation industry are valid, there is still no reason to completely discount the young disruptor's impact. Airbnb will probably never completely replace the hotel industry, but it is already large enough to have an impact nevertheless. Indeed, Guttentag estimates that Airbnb sold about 15 million room nights in 2012, which would have made its footprint on the industry that year similar to that of Fairfield Inn & Suites or InterContinental, two major hotel brands. Guttentag concludes his paper with some recommendations for future research on Airbnb, and highlights the need to investigate the impact of Airbnb on hotel occupancy rates and room prices. 
 
-Along those lines, there is one prominent paper that helped inspire our investigation. In their paper, @zervas2016rise used a difference in differences method (DID) to measure the impact that Airbnb's presence had on Texas hotel revenue, and how this impact differed by region and over time. They found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue. This effect varied widely by region, however. Austin, for example showed a 8 to 10 percent impact on hotel revenue. Zervas et al. also went on to investigate the impact of Airbnb's presence on different types of hotels and how that presence may effect hotel pricing models. They found that hotels with lower prices are more affected than higher priced hotels, and that Airbnb has significantly hindered hotels' ability to raise prices during high demand periods. 
+Along those lines, there is one prominent paper that helped inspire our investigation. In their paper, @zervas2016rise used a difference in differences method (DID) to measure the impact that Airbnb's presence had on Texas hotel revenue, and how this impact differed by region and over time. They found that a 10 percent size increase of the Airbnb market in Texas resulted in a .39 percent decrease in hotel revenue. This effect varied widely by region, however. Austin, for example showed a 8 to 10 percent impact on hotel revenue. Zervas et al. also went on to investigate the impact of Airbnb's presence on different types of hotels and how that presence may effect hotel pricing models. They found that hotels with lower prices are more affected than higher priced hotels, and that Airbnb has significantly hindered hotels' ability to raise prices during high demand periods.
 
-In order to add to this body of research, and at the behest of @guttentag2015airbnb, our investigation will focus on the effect of Airbnb on hotel occupancy rates in Berlin. Specifically, two hypotheses will guide our thinking. 
-
-> *H1: The higher the Airbnb supply in a given district in Berlin, the lower the hotel occupancy rate will be in that same district.*
-
+In order to add to this body of research, and at the behest of @guttentag2015airbnb, our investigation will focus on the effect of Airbnb listing on hotels in Berlin. Specifically, the following hypothesis will guide our thinking. Controlling for district and economic conditions, we assume that *the higher the Airbnb supply in a given district in Berlin, the lower the hotel occupancy rate will be in that same district.*
 
 # Data & Variables
-Our data comes from four different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], *InsideAirbnb.com* [@Airbnb:2016aa], and Eurostat. In order to conduct our analysis we needed to clean, merge and manipulate these data sets. 
+To approach our research question we use data  from four different sources, the Statistical Information System Berlin/Brandenburg (SBB) [@Brandenburg:2016aa], the Federal Statistical Office and the statistical offices of the Länder (FSO) ^[Both databases use JAVA-based website, which did not allow direct web scraping. The data was manually downloaded.] [@Germany:2015aa], *InsideAirbnb.com* [@Airbnb:2016aa], and Eurostat. In order to conduct our analysis we needed to clean, merge and manipulate these data sets. 
 
 From the Statistical Information System Berlin/Brandenburg, we collected monthly data on the number of overnight stays and the number of guests to arrive at their accommodations in the reporting period in Berlin [@Brandenburg:2016aa]. The surveys are carried out at the beginning of each month and refer to the reporting period of the previous month. The results are organized regionally according to districts and municipalities, allowing us to use specific data for each of the twelve districts in Berlin. We also gathered data for yearly household income groups and the number of employed and unemployed people per district. Based on the data, we calculated a yearly average household income and unemployment rate per district. As a proxy for the effect of Airbnb supply the hotel industry, we use the number of overnights in a given month and district. 
 
 From *InsideAirbnb.com*, we scraped data on 15,368 listings, i.e. apartments or rooms, for Berlin from August, 2008 until October, 2015. This data was extracted from the Airbnb site between 18 July 2015 and 6 January 2016. Amongst 92 variables for each listing covering topics ranging from room price to information on the host, the data includes (1) the neighbourhood of each listing, (2) the date that an Airbnb host signed up, and (3) the date of the first review of each listing. We further include a proxy for Airbnb's market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market [@TNW:2011aa]. 
 
-From Eurostat, we found monthly data on the number of passengers to arrive in Berlin's two major airports, Tegel and Schonefeld. We use this data to construct a variable that combines the arrivals to both airports every month. In keeping with the @zervas2016rise methodology, we use this variable as our control for the dramatic increase in the popularity of Berlin. 
+From Eurostat, we gathered monthly data on the number of passengers to arrive in Berlin's two major airports, Tegel and Schonefeld. We use this data to construct a variable that combines the arrivals to both airports every month. In keeping with the @zervas2016rise methodology, we use this variable as our control for the dramatic increase in the popularity of Berlin. 
 
 Our most significant methodological challenge is the absence of precise listing availability during our period of interest, as it is not directly available in the data. However, in keeping with the @zervas2016rise methodology, we used a date 6 months prior to the first review as a proxy for market entry. Given this approach we have to exclude 3,153 listings that did not receive at least one review in the reporting period. We then construct a variable for cumulative supply based on this information, i.e. the total number of listings in a district which have had their first reviews six month before to that month. This is not ideal, as this proxy does not take into account whether or not a listing was available in a given month. However, Airbnb itself is also unable to produce exact supply data, as hosts do not accurately update their listings' availability. It should also be stated that our approach of using Airbnb reviews as a proxy for Airbnb supply produces something of a conservative Airbnb supply estimate. @fradkin2015bias found that only 67% of Airbnb guests leave a review, but in the absence of exact listing availability data the review data must suffice. 
 
+Our main dependet variable Occupancy rate better explanation for the effect on hotel industry because it is taking into account the growing number of beds in Berliner hotels (growth rate: ?)
+
+$${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
+
+
 The final data set covers 720 monthly obversations across twelve districts in Berlin and covers the time period between 2010 and 2014.
 
-# Methodology & Analysis
-## Descriptive Analysis
-Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
+## Methodology & Analysis
+### Descriptive Analysis
+Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation and a correlation coeffecient of 0.343. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
 
 ```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
 
@@ -115,6 +117,44 @@ Airbnb`s popularity amongst users and hosts has increased substantially since it
 ```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
 
 ```
+
+## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+
+analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
+
+ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    labs(x="Months", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood") +
+    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
+
+```
+
+## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+
+danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
+
+ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6) +
+    labs(x="Months", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood") 
+
+```
+
+## Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
+```{r, echo=FALSE, fig.height=3.8, fig.width=8}
+marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
+marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
+
+ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+```
+
 
 ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
 
@@ -127,9 +167,7 @@ Unlike @zervas2016rise, we cannot use hotel revenue as our main unit of analysis
 
 Taking the arguments above into account, we use a region fixed effects to account for time-invariant differences in hotel occupancies main specification for our proposal would look like this:
 
-> (1) ${\log overnights}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
-
-> (2) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
+> (1) ${OccupRate}_{it} = \beta _i * \log Abb_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$
 
 Here, *OccupRate* is the occupancy rate for all hotels in district *i* at time *t*. Log *Abb* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. Further, we control for economic conditions (unemployment rate and GDP per capita at federal level) and a district-specific linear time trend to account for unobserved heterogeneous variation across districts by using a month-year time dummy *$\tau$*.
 
@@ -137,6 +175,49 @@ To decide whether to use a fixed or random effects model, we ran a Hausman test,
 
 #Results & Discussion
 Table 1 compares the results for the different models. 
+
+``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+LMII <- function(x, y, z) { 
+  (lm(x ~ 0 + z + log_inc + ue_rate + as.factor(NID) + factor_ym, data=y))
+}
+
+FEIa <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEI <- function(x, y, z) { 
+  plm(x ~ z + log_inc + ue_rate + arrivals, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIm <- function(x, y, z) {
+  plm(x ~ z + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+ModelI <- LMII(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelI, ModelIa, ModelII, ModelIII,
+          digits = 3, 
+          covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
+          omit = c("NID", "factor_ym"),  
+          column.labels   = c("LM (1)", "FE (2)", "FE (3)", "FE (4)"),
+          model.numbers = FALSE,
+          omit.stat = c('f', 'ser'), # to nicely fits on the page
+          omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
+          dep.var.labels = c("Occupancy Rate"),
+          out.header = FALSE, 
+          model.names = FALSE,
+          header = FALSE,
+          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
+          align = TRUE,
+          type = "latex")
+
+```
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 

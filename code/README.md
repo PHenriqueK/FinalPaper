@@ -1,18 +1,6 @@
-#Third Pair Assignment for Introduction to Collaborative Social Science Data Analysis (MPP-E1180)
+##Folder Files
 
-Dan Murphy & Paulo Kalkhake
-
-Latest Update: November 30, 2016
-
-##The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach.
-
-###Project Background
-
-This repository contains the material for the Third Pair Assignment in Introduction to Collaborative Social Science Data Analysis (MPP-E1180) @HSoG Berlin. Here, we gather, clean, and merge all of the relevant data for our final project. We also illustrate the data with descriptive statistics and a basic inferential model. In our paper, we will seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin, using a Regression Discontinuity Model (RDM).
-
-###Repository Files
-
-In addition to this readme file, there are 11 files in this repository.
+In addition to this readme file, there are 11 files in this folder.
 
 | File                    | Description |
 | ----------------------- | --------------------- | 

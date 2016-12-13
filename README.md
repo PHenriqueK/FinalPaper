@@ -1,14 +1,16 @@
-# FinalPaper for Introduction to Collaborative Social Science Data Analysis (MPP-E1180)
+#FinalPaper for Introduction to Collaborative Social Science Data Analysis (MPP-E1180)
 
 Dan Murphy & Paulo Kalkhake
 
-Latest Update: November 18, 2016
+Latest Update: December 16, 2016
 
-##The Effect of Airbnb's Market Entry on Hotels in Berlin: A Regression Discontinuity Approach.
+##The Effect of Airbnb on Hotels: Evidence from Berlin
 
 ###Project Background
 
-This repository contains the material for the Collaborative Research Project in Introduction to Collaborative Social Science Data Analysis (MPP-E1180) @HSoG Berlin. We seek to illustrate the magnitude of the "Airbnb effect" on hotels in Berlin, using a Regression Discontinuity Model (RDM).
+This repository contains the material for the collaborative research project in 'Introduction to Collaborative Social Science Data Analysis' (MPP-E1180) @HSoG Berlin. 
+
+###Abstract
 
 #TO DO 
 - USE POOLED OLS
@@ -16,19 +18,14 @@ This repository contains the material for the Collaborative Research Project in 
 
 ###Repository Files
 
-In addition to this readme file, there are 11 files in this repository.
+In addition to this readme file, there are several folders and files in this repository.
 
-| File                    | Description |
+| File/Folder                    | Description |
 | ----------------------- | --------------------- | 
-| Assignment_3_Markdown.Rmd    | Markdown document that contains the assignment in raw form | 
-| Assignment_3_Markdown.pdf  | Assignment in pdf format  |
-| assignment03_analysis.R  | Statistical analysis of cleaned and merged data  |
-| merge.R  | Merges all of the cleaned data sets  |
-| data.R | Loads packages and Berlin/Brandenburg data  |
-| data_airbnb.R | Loads Airbnb data  |
-| SBB_data_manipulation.R | Cleans Statistical Office of Berlin/Brandenburg data  |
-| FSO_data_manipulation.R | Cleans Federal Statistics Office data  |
-| airbnb_data_manipulation.R | Cleans Airbnb data  |
+| code    | Includes all relevant code to clean, to merge, and to run relevant statistical analysis | 
+| data    | Includes relevant data | 
+| presentation  | Includes the necessary files; and the presentation html-file  |
+| website  | Includes the necessary files; and the website html-file  |
 | Bibliography.bib | Relevant references in BibTeX format |
 
 ### Contact
@@ -48,26 +45,3 @@ ________
 
 # The effect of AIRBNB is likely best observed once it has reached a critical mass. So, here we introduce an interaction between log_airbnb supply and the absolute level of airbnb supply.
 3. Model C: log_occup_rate = log_supply * econ_control * neighborhood_dummy * year_dummy * interaction variable
-
-### MAYBE. 
-
-
-**Deadline**:
-
-- Presentation: In-class 2 December
-
-- Website/Paper: 16 December 2016
-
-## Collaborative Research Project (2)
-
-The project can be thought of as a 'dry run' for your thesis with multiple 
-presentation outputs.
-
-Presentation: 10 minutes **maximum**. **Engagingly** present your research
-question and key findings to a general academic audience (fellow students).
-
-Paper: 5,000 words maximum. **Standard academic paper**, properly cited laying out
-your research question, literature review, data, methods, and findings.
-
-Website: An engaging website designed to convey your research to **a general
-audience**.

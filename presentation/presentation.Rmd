@@ -125,7 +125,7 @@ Fixed Effects (for time and district) to account for unobserved heterogeneity:
 
 <div class="centered">
 
-${\log Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \tau _i + \varepsilon _{it}$
+${Occupancy Rate}_{it} = \beta _i * \log AbbSupply_{it} + \beta _j * X' + \tau _i + \varepsilon _{it}$
 
 </div>
 
@@ -174,7 +174,7 @@ stargazer(ModelI, ModelIa, ModelII, ModelIII,
           header = FALSE,
           add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
           align = TRUE,
-          type = "html")
+          type = "latex")
 
 ```
 
