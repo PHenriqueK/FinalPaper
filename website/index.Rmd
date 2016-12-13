@@ -43,7 +43,7 @@ Airbnb claims that their service is complementary to hotels. However, data shows
 
 In 2014, the city passed a law that forbade renting out entire apartments to tourists on Airbnb. This came in response to an unprecedented 56 percent rise in rents in Berlin between 2009 and 2014, for which Airbnb and other online hosting platforms received some of the blame. The city's law was widely welcomed by Berliners hoping to slow the forces of gentrification, but it was also welcomed by another Airbnb victim in Berlin; the hotel industry. 
 
-```{r, echo=FALSE, include=TRUE}
+```{r, results='asis'}
 
 GeoBerlin_bev <-gvisGeoChart(analysis_simple,
                 locationvar = 'neighbourhood',
@@ -83,22 +83,45 @@ To make matters worse, the rise of Berlin as the place to be happened to coincid
 
 ## So, is Airbnb hurting hotels in Berlin?
 
-### Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
+## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+
+analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
+
+ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    labs(x="Months", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood") +
+    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
+
+```
+
+
+
+## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
+```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+
+danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
+
+ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
+    geom_line(alpha=0.7) + 
+    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6) +
+    labs(x="Months", y="Number of Airbnb Listings") + 
+    scale_colour_discrete(name ="Neighbourhood") 
+
+```
+
+## Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
 ```{r, echo=FALSE, fig.height=3.8, fig.width=8}
+marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
+marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 
+ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+    geom_point(alpha=0.5, color="#c0392b") +
+    geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
 ```
 
-### Estimation Results {.flexbox .vcenter .reduced}
-``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
-
-
-```
-
-### Estimation Results (2) ## {.flexbox .vcenter .reduced}
-``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
-
-
-```
 
 
 ## What else is Airbnb doing to our cities?
