@@ -7,12 +7,8 @@
 ## What it does: merging cleaned data sets
 ##########################
 
-#Set working directory
-try(setwd("/Users/Paulo/GitHub/FinalPaper/code"),silent=TRUE)
-try(setwd("/Users/djm113/Documents/GitHub/FinalPaper/code"),silent=TRUE)
-
 #Dynamical link
-source('merge.R')
+source('code/merge.R')
 
 ##### Data Prep and descriptive analysis using the static supply #####
 

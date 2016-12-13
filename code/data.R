@@ -7,9 +7,6 @@
 ## What it does: Sets working directory & loads packages and datasets
 ##########################
 
-# remove objects from the specified environment
-rm(list=ls())  
-
 # Load Packages: credits to Wickham Hadley, Xie Yihui, Frank Harrell Jr, Philippe Grosejan & Frederic Ibanez and others
 # (install when needed)
 

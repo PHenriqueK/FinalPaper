@@ -1,9 +1,10 @@
 library(ggmap)
-berlinmap <- qmap("Berlin", zoom = 12, maptype = "toner", source = "stamen")
+berlinmap <- qmap("Berlin", zoom = 12)
 
 FinalMap <- berlinmap +
   geom_point(aes(x = longitude, y = latitude),
-             data = Detailed_Listings) +
+             data = Detailed_Listings,
+             alpha=0.5, color="#c0392b", size = .7) +
   #geom_point(aes(x = stations$coords.x1, y = stations$coords.x2), data = stations) +
   xlab('') + ylab('') +
   theme(axis.ticks = element_blank(), 

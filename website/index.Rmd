@@ -28,6 +28,26 @@ suppressPackageStartupMessages(library(googleVis))
 ``` {r, include=FALSE, results='asis'}
 source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 ```
+
+``` {r, echo=FALSE, warning=FALSE, message=FALSE}
+library(ggmap)
+berlinmap <- qmap("Berlin", zoom = 12)
+
+FinalMap <- berlinmap +
+  geom_point(aes(x = longitude, y = latitude),
+             data = Detailed_Listings,
+             alpha=0.5, color="#c0392b", size = .7) +
+  #geom_point(aes(x = stations$coords.x1, y = stations$coords.x2), data = stations) +
+  xlab('') + ylab('') +
+  theme(axis.ticks = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank())
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Numerous Airbnb hosts signed up for the platform since its debut in summer 2011.'}
+print(FinalMap)
+```
+
 <br>
 
 *Daniel Murphy & Paulo Kalkhake, Hertie School of Governance, Berlin*

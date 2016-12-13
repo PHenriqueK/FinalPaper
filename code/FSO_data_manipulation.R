@@ -8,7 +8,7 @@
 ##########################
 
 # Dynamical Link to Data/Packages R script file
-source('data_airbnb.R')
+source('code/data_airbnb.R')
 
 ##### Cleaning & merging GENESIS DATA ######
 
