@@ -1,8 +1,16 @@
 base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
 ggplot2
+grid
 scales
 RColorBrewer
 stargazer
+captioner
 car
 Formula
 plm
@@ -27,5 +35,5 @@ xtable
 texreg
 foreign
 gplots
-tseries
-captioner
+reshape
+reshape2

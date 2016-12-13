@@ -1,7 +1,6 @@
 ---
 title: "The Effect of Airbnb on Hotels"
 subtitle: "Evidence from Berlin"
-  - Evidence and Policy Recommendations for Germany ^[Final Paper for Introduction to Collaborative Social Science Data Analysis taught by Christopher Gandrud.]
 author: 
   - Paulo H. Kalkhake ^[Matriculation N° 147 153, p.kalkhake@mpp.hertie-school.org]
   - Daniel J. Murphy
@@ -21,15 +20,12 @@ documentclass: article
 csl: "finalpaper/apa.csl"
 ---
 
-```{r setup, include=FALSE, cache=TRUE}
-knitr::opts_chunk$set(dev = 'pdf')
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, dev = 'pdf')
 
 # Set working directory
 try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
 try(setwd("/Users/djm113/Documents/GitHub/FinalPaper"),silent=TRUE)
-
-# Dynamical Link to Data/Packages R script file (takes some time!)
-source("code/finalpaper_analysis.R")
 
 #loading graphs packages
 library(ggplot2)
@@ -60,6 +56,13 @@ library(texreg)
 library(stargazer)
 library(foreign)
 library(gplots)
+library(lubridate)
+
+```
+
+```{r include=FALSE, cache=TRUE}
+# Dynamical Link to Data/Packages R script file (takes some time!)
+source("code/finalpaper_analysis.R")
 ```
 
 \newpage
@@ -102,30 +105,13 @@ Our main dependet variable Occupancy rate better explanation for the effect on h
 
 $${Occupancy Rate}_{it} =  \frac {{Overnight Stays}_{it}}{{Hotel Beds}_{it}*{days}_{t}}$$
 
-
 The final data set covers 720 monthly obversations across twelve districts in Berlin and covers the time period between 2010 and 2014.
 
-<<<<<<< HEAD
 ## Methodology & Analysis
 ### Descriptive Analysis
-Airbnb`s popularity amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation and a correlation coeffecient of 0.343. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
-=======
-# Methodology & Analysis
-## Descriptive Analysis
-Airbnb`s popularity in Berlin has exploded since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo solidified the amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
->>>>>>> origin/master
+Airbnb`s popularity in Berlin has exploded since it's official debut in the city in June 2011. Flatsharing was already on the rise in the ciy, but Airbnb's acquisition of Accoleo solidified the amongst users and hosts has increased substantially since it was founded in August 2008. As Berlin's popularity has increased over that same period, many Berliners began listing apartments on Airbnb. The growth in Airbnb listings has not been equal across all neighbourhoods in Berlin, but it has been positive in every year from 2010 to 2014. That trend has accelerated each year, with more and more Berliners listing apartments on the site. Upon plotting the change in Airbnb supply against hotel room occupancy *(cf. Figure 1)*, we were surprised to see a clear positive correlation and a correlation coeffecient of 0.343. However, we realized the importance of accounting for general demand in an area as it becomes more attractive to tourists. 
 
-```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
-
-
-```
-
-```{r, echo=FALSE, fig.height=4, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
-
-```
-
-## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Effect of Change in Airbnb Listings on Hotel Occupancy Rates in Berlin (2010 - 2014)'}
 
 analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
 
@@ -138,7 +124,7 @@ ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=nei
 ```
 
 ## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Dynamic Airbnb Supply per Neighbourhood (2010 - 2014)'}
 
 danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
 
@@ -150,8 +136,12 @@ ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=ne
 
 ```
 
-## Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
-```{r, echo=FALSE, fig.height=3.8, fig.width=8}
+ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
+
+@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We replicated this approach by using Eurostat data on the number of passengers arriving at Berlin's two major airports. Upon cleaning this data, we see an increase of _____________ in the number of passengers arriving in Berlin. Additionally, we will incorporate a time specific trend to account for unobserved heterogeneity. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that the increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
+
+```{r, echo=FALSE, fig.height=4, fig.width=5, fig.cap='Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)'}
+
 marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 
@@ -159,12 +149,8 @@ ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
     geom_point(alpha=0.5, color="#c0392b") +
     geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
     labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+
 ```
-
-
-ggplot(meltdf,aes(x=Year,y=value,colour=variable,group=variable)) + geom_line()
-
-@zervas2016rise accomplished this by controlling for passengers listing the local airport as their final destination. We replicated this approach by using Eurostat data on the number of passengers arriving at Berlin's two major airports. Upon cleaning this data, we see an increase of _____________ in the number of passengers arriving in Berlin. Additionally, we will incorporate a time specific trend to account for unobserved heterogeneity. Given confirmation from Zervas et al. that Airbnb does indeed compete with hotels, we believe that the increase in Berlin's popularity is largely responsible for the positive correlation we observe here.
 
 ##Inferential Analysis
 > The key identification assumption we have to make to support a causal interpretation of this DD estimate is that there are no unobserved, time-varying, city-specific factors that are correlated with both Airbnb entry and hotel room revenue. Stated differently, we assume that unobserved factors that could potentially jointly affect both Airbnb adoption and hotel room revenue do not systematically vary both between different cities and over time.
@@ -183,6 +169,7 @@ To decide whether to use a fixed or random effects model, we ran a Hausman test,
 Table 1 compares the results for the different models. 
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
+
 LMII <- function(x, y, z) { 
   (lm(x ~ 0 + z + log_inc + ue_rate + as.factor(NID) + factor_ym, data=y))
 }
@@ -205,9 +192,7 @@ ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log
 
 ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
 
-ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
-
-stargazer(ModelI, ModelIa, ModelII, ModelIII,
+stargazer(ModelI, ModelIa, ModelII,
           digits = 3, 
           covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
           omit = c("NID", "factor_ym"),  
