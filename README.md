@@ -27,8 +27,6 @@ In addition to this readme file, there are several folders and files in this rep
 | Website  | Includes the necessary files; and the website html-file  |
 | Bibliography.bib | Relevant references in BibTeX format |
 | finalpaper    | Contains APA formatting file | 
-| FinalPaper_files    | Includes latex file | 
-| FinalPaper_cache    | Includes cache for our Final Paper | 
 
 ### Contact
 Comments and feedback are encouraged, and can be sent to [Paulo Kalkhake](mailto: p.kalkhake@mpp.hertie-school.org(p.kalkhake@mpp.hertie-school.org)) or [Dan Murphy](mailto:danieljmurphy01@gmail.com)).
