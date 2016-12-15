@@ -4,18 +4,17 @@ In addition to this readme file, there are 11 files in this folder.
 
 | File                    | Description |
 | ----------------------- | --------------------- | 
-| Assignment_3_Markdown.Rmd    | Markdown document that contains the assignment in raw form | 
-| Assignment_3_Markdown.pdf  | Assignment in pdf format  |
-| assignment03_analysis.R  | Statistical analysis of cleaned and merged data  |
 | merge.R  | Merges all of the cleaned data sets  |
 | data.R | Loads packages and Berlin/Brandenburg data  |
 | data_airbnb.R | Loads Airbnb data  |
 | SBB_data_manipulation.R | Cleans Statistical Office of Berlin/Brandenburg data  |
 | FSO_data_manipulation.R | Cleans Federal Statistics Office data  |
-| airbnb_data_manipulation.R | Cleans Airbnb data  |
+| airbnb_data_manipulation_review.R | Cleans Airbnb data  |
+| descriptives.R  | Performs descriptive analysis of the data  |
+| finalpaper_analysis.R  | Prepares data for inferential analysis  |
 | Bibliography.bib | Relevant references in BibTeX format |
 
-In order to successfully run the code, either run the *assignment03_analysis.R* file with the source code, or run the files in the following order. 
+In order to successfully run the code, run the *assignment03_analysis.R* file with the source code, or run the files in the following order. 
 
 > *1. data.R*
 
