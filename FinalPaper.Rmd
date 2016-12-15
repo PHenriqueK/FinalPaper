@@ -187,7 +187,7 @@ Considering these arguments, the main specification for our analysis looks like 
 
 $${OccupancyRate}_{it} = \beta _i * \log cumulativeAirbnbSupply_{it} + \tau _i + \beta _j * X' + \varepsilon _{it}$$
 
-Here, *Occupancy Rate* is the occupancy rate for all hotels in district *i* at time *t*. *Cumulative Airbnb Supply* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. ${X'}$ controls for yearly district-level specific economic conditions (unemployment rate and yearly average household income) and air passenger arrivals in Berlin. Finally, by using a month-year time dummy *$\tau$*, we account for unobserved heterogeneous variation across districts and time.
+Here, *Occupancy Rate* is the occupancy rate for all hotels in district *i* at time *t*. *Cumulative Airbnb Supply* is the log of the approximated total number of Airbnb listings available in district *i* at time *t*. ${X'}$ controls for yearly district-level specific economic conditions (unemployment rate and yearly log average household income) and air passenger arrivals in Berlin. Finally, by using a month-year time dummy *$\tau$*, we account for unobserved heterogeneous variation across districts and time.
 
 #Results & Discussion
 Table 1 compares the results for different models. 
@@ -210,6 +210,14 @@ FEIIm <- function(x, y, z) {
   plm(x ~ z + log_inc + ue_rate + arrivals + marketentry, data=y, index=c("NID", "factor_ym"), model="within")
 }
 
+FEIII <- function(x, y, z) {
+  plm(x ~ z + log_inc + ue_rate + arrivals + marketentry + AB_supply, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
+FEIIIb <- function(x, y, z) {
+  plm(x ~ z + log_inc + ue_rate + arrivals + marketentry + AB_supply + logABAB, data=y, index=c("NID", "factor_ym"), model="within")
+}
+
 ModelI <- LMII(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
 
 ModelIa <- FEIa(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
@@ -218,37 +226,39 @@ ModelII <- FEI(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_
 
 ModelIII <- FEIIm(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
 
-stargazer(ModelI, ModelIa, ModelII, ModelIII,
+ModelIV <- FEIII(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+ModelV <- FEIIIb(analysis_simple$occup_rate, analysis_simple, analysis_simple$log_ABsupply)
+
+stargazer(ModelI, ModelIa, ModelII, ModelIII, Model IV, ModelV
           digits = 3, 
-          covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry"),
-          title ="Summary of Hierarchical Regression Analysis for Variables Predicting Hotel Occupancy Rate (N = 720)", 
+          covariate.labels = c("Log Airbnb Listings", "Average HH Income (Log)", "Unemployment Rate", "Incoming Passengers", "Market Entry", "Number of Listings", "Log Supply*Level"),
+          title ="Summary of Hierarchical Regression Analysis for Variables Predicting Hotel Occupancy Rate in Berlin (2010 - 2014)", 
           omit = c("NID", "factor_ym"),  
-          column.labels   = c("LM (1)", "FE (2)", "FE (3)", "FE (4)"),
+          column.labels   = c("LM (1)", "FE (2)", "FE (3)", "FE (4)", "FE (5)", "FE(6)"),
           model.numbers = FALSE,
           omit.stat = c('f', 'ser'), # to nicely fits on the page
           omit.labels = c("Neighbourhood-specific trend", "Time trend"), 
-          dep.var.labels = c("Occupancy Rate"),
+          dep.var.labels = c("Hotel Occupancy Rate"),
           out.header = FALSE, 
           model.names = FALSE,
           header = FALSE,
           no.space = TRUE, 
           font.size = "small",
-          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
+          add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes", "Yes", "Yes"))),
           type = "latex")
 
 ```
 
-Model 1 is a simple Ordinary Least Squares (OLS) model that only includes our economic control variables (neighbourhood specific unemployment rate and average household income) in addition to neighbourhood and time specific trends. As stated earlier, we interpret the coefficient *$\beta$* of *$\log Airbnb supply$* as indicative of the extent to which Airbnb listings may act as a substitute for hotel rooms. In Column 1 we estimate the coefficient *$\beta$* = 0.009 as being highly significant (p < 0.01). This means that a 10 percent increase in Airbnb listings is associated with a statistically significant 0.009 percentage point increase in the monthly hotel occupancy rate. This positive effect seems counter-intuitive, leading us to beleive that the simple linear model does not adequately analyze the relationship. 
+Model 1 is a simple Ordinary Least Squares (OLS) model that only includes our economic control variables (neighbourhood specific unemployment rate and log average household income) in addition to neighbourhood and time specific trends. As stated earlier, we interpret the coefficient *$\beta$* of *$\log Airbnb supply$* as indicative of the extent to which Airbnb listings may act as a substitute for hotel rooms. In Column 1 we estimate the coefficient *$\beta$* = 0.009 as being highly significant (p < 0.01). This means that a 10 percent increase in Airbnb listings is associated with a statistically significant 0.009 percentage point increase in the monthly hotel occupancy rate. This positive effect seems counter-intuitive, leading us to beleive that the simple linear model does not adequately analyze the relationship. 
 
 In Model 2 we employ a fixed effects model to account for changes in time and variation across neighbourhoods. Here, we once again find a highly significant (p < 0.01) positive coefficient of 0.02, indicating that a 10 percent increase in Airbnb listings is associated with a statistically significant 0.2 percentage point increase in the monthly hotel occupancy rate. This result shows that we had underestimated the effect of changing from a linear model to fixed effects, and continued to surprise us by revealing a positive relationship between *$\log Airbnb supply$* and monthly hotel occupany rates. However, this model does not control for the dramatic increase in popularity that Berlin has experienced during this time period. 
 
-To control for the effect of Berlins rising popularity, Model 3 follows the methodology of @zervas2016rise by using data on passengers arriving in Berlin as a proxy for the increasing popularity of the city. Upon adding this control to the fixed effects model, we observe an inverse relationship between *$\log Airbnb supply$* and monthly hotel occupany rates. This effect is highly significant (p < 0.01) with a coefficient of -0.01, meaning that a 10 percent increase in Airbnb listings is associated with a statistically significant 0.1 percentage point decrease in the monthly hotel occupancy rate. This was the relationship we had been expecting to find in our hypothesis, and demonstrates that to a very small degree, Airbnb acts as a substitute for hotels in Berlin. The effect of incoming passengers is weaker still, but positive and highly significant at the p < 0.01 level. This supports our thinking that the increasing popularity of the city has effected hotel occupancy rates. Column 3 also shows an increase in the significance of average household income, which is now significant at the p < 0.01 level. 
+To control for the effect of Berlins rising popularity, Model 3 follows the methodology of @zervas2016rise by using data on passengers arriving in Berlin as a proxy for the increasing popularity of the city. Upon adding this control to the fixed effects model, we observe an inverse relationship between *$\log Airbnb supply$* and monthly hotel occupany rates. This effect is highly significant (p < 0.01) with a coefficient of -0.01, meaning that a 10 percent increase in Airbnb listings is associated with a statistically significant 0.1 percentage point decrease in the monthly hotel occupancy rate. This was the relationship we had been expecting to find in our hypothesis, and demonstrates that to a very small degree, Airbnb acts as a substitute for hotels in Berlin. The effect of incoming passengers is weaker still, but positive and highly significant at the p < 0.01 level. This supports our thinking that the increasing popularity of the city has effected hotel occupancy rates. Column 3 also shows an increase in the significance of log average household income, which is now significant at the p < 0.01 level. 
 
 Model 4 adds a final control to our analysis, a dummy variable for Airbnb's Berlin market entry. It is based on date of of acquisition of the German peer-to-peer market place Accoleo in June 2011, which is considered Airbnb's first move to expand their business model to the European market [@TNW:2011aa]. However it seems that the official market entry of the site did not have any significant effect on hotel occupancy rates. The effect of *$\log Airbnb supply$* remains negative and significant at the p < 0.01 level here, albeit with a slightly weakened coefficient (-0.008). 
 
-Our new main specification takes further into account that the effect of Airbnb is likely best observed, once it has reached a critical threshold or market penetration. However, even when introducing an interaction between log Airbnb supply and the absolute level of Airbnb listings we find that Airbnb supply has a highly significant positive effect on hotel occupancy, with a p-value on the .01 percent level.
-
-****Add More on non-liner model here*****R2!!!
+Finally, Model 5 and 6 follow the idea that the effect of Airbnb is likely best observed, once it has reached a critical threshold or market penetration. Firstly, we include include the absolute level of listings. The leads to surprising results as it implies that a one percent increase of Airbnb supply relates a signficiant impact of hotel occupancy rates by 8.61 percentage points (p < 0.01). In Model 6 we include an interaction term of log cumulative Airbnb supply and the absolute level of Airbnb supply to account for their potential (joint) non-linear relationship with regard to hotel occupancy rates in Berlin. Again the coefficient of log Airbnb supply changes radically, but stays stastically signficantly negative.  
 
 While our strongest finding, a coefficient of -0.01, is highly significant at the p < 0.01 level, the magnitude of the effect on hotel occupancy rates is very weak. Column 3 indicates that a 10 percent increase in Airbnb listings is only associated with a 0.1 percentage point decrease in hotel occupancy rates. To put that in perspective, it means that adding about 1,530 Airbnb listings to the Airbnb supply merely causes a 0.1 percentage point decrease in hotel occupancy rates. This suggests what while Airbnb may be affecting the hotel industry in Berlin, it's effect is so small that the hotel industry is unlikely to notice. That is especially true in light of Berlin's increasing popularity, which seems to be more than making up for any "Airbnb effect" on hotels in Berlin.
 

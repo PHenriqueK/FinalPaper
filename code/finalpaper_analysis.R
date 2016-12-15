@@ -6,8 +6,6 @@
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
 ## What it does: merging cleaned data sets
 ##########################
-try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
-try(setwd("/Users/djm113/Documents/GitHub/FinalPaper"),silent=TRUE)
 
 #Dynamical link
 source('code/merge.R')
@@ -80,6 +78,15 @@ danalysis_simple$AB_supply_2 <- danalysis_simple$AB_supply*danalysis_simple$AB_s
 
 #Dummy for district specific market entry 
 danalysis_simple$dmarketentry <- ifelse((danalysis_simple$AB_supply < 10), 0, 1)
+
+#Dummy for district specific market entry thresholds
+analysis_simple$l50 <- ifelse((analysis_simple$AB_supply < 100  & analysis_simple$AB_supply > 49), 1, 0)
+analysis_simple$l100 <- ifelse((analysis_simple$AB_supply < 250 & analysis_simple$AB_supply > 99), 1, 0)
+analysis_simple$l250 <- ifelse((analysis_simple$AB_supply < 500 & analysis_simple$AB_supply > 249), 1, 0)
+analysis_simple$l500 <- ifelse((analysis_simple$AB_supply < 1000 & analysis_simple$AB_supply > 499), 1, 0)
+analysis_simple$l1000 <- ifelse((analysis_simple$AB_supply < 1500 & analysis_simple$AB_supply > 999), 1, 0)
+analysis_simple$l1500 <- ifelse((analysis_simple$AB_supply < 2000 & analysis_simple$AB_supply > 1499), 1, 0)
+analysis_simple$l2000 <- ifelse((analysis_simple$AB_supply > 1999), 1, 0)
 
 #Subset for observations where Airbnb Supply was at least 10 apts
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)

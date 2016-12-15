@@ -1,5 +1,4 @@
 ##Descriptive & Graphical analysis
-
 #Heterogeneity across years and neighbourhoods/ plotmeans draw a 95% confidence interval around the means
 
 plotmeans(occup_log ~ NID, main="Heterogeineity across neighbourhoods", data=analysis_simple)
@@ -23,17 +22,13 @@ multiplot(ModelA,ModelD)
 
 ##### Further statistical tests #####
 #Fixed or Random Effects? Hausmann Test
-random <- plm(occup_rate ~ log_ABsupply + as.factor(year_month) + as.factor(NID), data=analysis_simple, index=c("NID", "year_month"), model="random")
-fixed <- plm(occup_rate ~ log_ABsupply + as.factor(year_month) + as.factor(NID), data=analysis_simple, index=c("NID", "year_month"), model="within")
+random <- plm(occup_rate ~ log_ABsupply + log_inc + ue_rate + arrivals, data=analysis_simple, index=c("NID", "year_month"), model="random")
+fixed <- plm(occup_rate ~ log_ABsupply + log_inc + ue_rate + arrivals, data=analysis_simple, index=c("NID", "year_month"), model="within")
 
-phtest(fixed, random) #Hausmann Test -> random effects model
-
-#Testing for random effects: 
-pool <- plm(occup_rate ~ log_ABsupply + as.factor(year_month) + as.factor(NID), data=analysis_simple, index=c("NID", "year_month"), model="pooling")
-plmtest(pool, type=c("bp"))
+phtest(fixed, random) #Hausmann Test -> fixed effects model
 
 #Testing time-fixed effects. The null is that no time-fixed effects needed
-fixed.time <- plm(occup_rate ~ log_ABsupply + as.factor(year_month), data=analysis_simple, index=c("NID", "year_month"), model="within")
+fixed.time <- plm(occup_rate ~ log_ABsupply + log_inc + ue_rate + arrivals, data=analysis_simple, index=c("NID", "year_month"), model="within")
 pFtest(fixed.time, fixed) #p-value <.05 -> time fixed effects
 
 #Lagrange Multiplier Test - time effects (Breusch-Pagan)
