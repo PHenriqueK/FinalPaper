@@ -53,20 +53,20 @@ print(FinalMap)
 *Daniel Murphy & Paulo Kalkhake, Hertie School of Governance, Berlin*
 <br>
 
-***Airbnb is one of the great success stories of the sharing economy. Its customers report incredible travel experiences, its hosts love having another source of income, and its "Don't Go There, Live There" advertising campaign made us all want to start planning our next adventure. But has Airbnb shaken up the accomodation industry in the same way that Uber changed the game in urban transport? Our new study shows that in Berlin, the waves Airbnb is making are mere ripples in a hotel industry enjoying a flood of travelers heading for the German capital.***
+***Airbnb is one of the great success stories of the sharing economy. Its customers report incredible travel experiences, its hosts love having another source of income, and its "Don't Go There, Live There" advertising campaign made us all want to start planning our next adventure. But has Airbnb shaken up the accomodation industry in the same way that Uber changed urban transport? Our new study shows that in Berlin, the waves Airbnb is making are mere ripples in a hotel industry enjoying a flood of travelers heading for the German capital.***
 
 <br>
 
 #### Airbnb has changed the accomodation industry forever - and keeps growing 
 <br>
 
-Since its founding in 2008, Airbnb has become hugely popular around the world. In Berlin, Airbnb bought out a competitor in 2011 and has dominated the flatsharing market in the city ever since. Recently the platform has made headlines in Berlin due to the city's *Zweckentfremdungsverbot* (Airbnb misuse law), which came into effect in early 2016. This followed a lively debate about Airbnb's role in the increasing cost of rent in the city, which rose by 56 percent between 2009 and 2014. Berlin is currently one of the hottest cities in Europe, with a booming startup scene and world famous nightlife. This popularity means more apartment hunters, and since so many Berlin apartments are now being rented out on Airbnb, many in the city have partially blamed the company for rising rents.
+Since its founding in 2008, Airbnb has become a worldwide phenomenom. In Berlin, Airbnb bought out a competitor in 2011 and has dominated the city's flatsharing market ever since. Recently, the platform made Berlin headlines due to the city's *Zweckentfremdungsverbot* (Airbnb misuse law), which forbid renting out entire apartments on the platform. As Berlin is currently one of the hottest cities in Europe, apartments are in high demand. Current and aspiring Berliners don't appreciate having to compete with tourists for limited real estate. They blame the platform for Berlin's increasing rents, which rose by 56 percent between 2009 and 2014.
 
 Yet, Airbnb wasn't meant to take away housing options for long term residents. It was meant to provide travelers with a more authentic alternative to staying in a hotel. By all accounts, it's been at least as successful at doing that as it has been at gentrifying neighbourhoods. Some Airbnb guests claim that having a personal, authentic experience is just as important to them as their monetary concerns. That alone is an achievement. Having a "personal" or "authentic" experience was scarcely thought of as an option in the accomodation industry a few years ago, much less a major concern. Airbnb has changed all of that, and in so doing, changed the accomodation industry with it.
 
-But does Airbnb *directly compete* with hotels in Berlin? Its prices are lower (55 euros a night for Airbnb, compared to 80 euros a night), and it purports to provide a better experience. According to one study (@guttentag2015airbnb), Airbnb sold about 15 million room nights in 2012. That would make its emergence comparable to a new mid-level hotel chain suddenly appearing in most cities around the world in the space of only a few years. So aren't hotels feeling the pain? 
+But does Airbnb *directly compete* with hotels in Berlin? After all, its prices are lower (55 euros a night for Airbnb, compared to 80 euros a night), and it purports to provide a better experience. According to one study (@guttentag2015airbnb), Airbnb sold about 15 million room nights in 2012. That would make its emergence comparable to a new mid-level hotel chain suddenly appearing in most cities around the world in the space of only a few years. So aren't hotels feeling the pain? 
 
-According to Airbnb, their service is complementary to hotels since most of their listings are outside of the main hotel districts in each city. Yet, according to a recent study from Boston University [@zervas2016rise], a ten percent increase in Airbnb supply results in a 0.35 percentage point decrease in hotel room revenue. The researchers found that hotels were reducing prices in an effort to stay in the race with Airbnb, which would seem to confirm that Airbnb is indeed a competitor that hotels should be taking seriously. 
+According to Airbnb, their service is complementary to hotels since most of their listings are outside of major hotel districts. Yet, according to a recent study from Boston University [@zervas2016rise], a ten percent increase in Airbnb supply results in a 0.35 percentage point decrease in hotel room revenue. The researchers found that hotels were reducing prices in an effort to stay in the race with Airbnb. That would seem to confirm that Airbnb is indeed a competitor that hotels should be taking seriously. 
 
 With all of this in mind, we decided to crunch the numbers and see if Berlin hotels had been hit as hard by Airbnb as Berlin renters. 
 
@@ -75,7 +75,7 @@ With all of this in mind, we decided to crunch the numbers and see if Berlin hot
 #### How popular is Airbnb in Berlin?
 <br>
 
-As you can see in the map above, Airbnb is now in ever neighborhood in Berlin. The platform;s popularity has exploded in the city's most popular neighbourhoods in recent years, with Friedrichshain-Kreuzberg, Mitte, Pankow, and Neukoelln all experiencing rapid growth. 
+As you can see in the map above, Airbnb is now in every neighbourhood in Berlin. The platform's popularity has exploded in the city's most popular neighbourhoods in recent years, with Friedrichshain-Kreuzberg, Mitte, Pankow, and Neukoelln all experiencing rapid growth. 
 
 ```{r, echo=FALSE}
 
@@ -89,7 +89,7 @@ ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=nei
 
 ```
 
-#### How much did Airbnb affect the Berlin hotel industry? 
+#### How much did Airbnb impact the Berlin hotel industry? 
 
 This is where things got a little bit complicated. When we first plotted the relationship between Airbnb supply and hotel occupancy rates, we were surprised to find a positive correlation. Essentially, that would mean increased competition from Airbnb was related to an *increase* in hotel occupancy rates. 
 
@@ -103,12 +103,11 @@ ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
     labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
 ```
 
-
 #### How does that make sense?
-At first, we thought this was a little strange. But when you consider the years we're looking at here, it begins to make a little more sense. You see, the rise of Berlin as the place to be happened to coincide with the rise of Airbnb as the place to stay. We took a look at the number of passengers arriving at Berlin's two major airports over this same time period, and found that they increased by ____%. Once we accounted for this effect in our model, we found that a 10 percent increase in Airbnb supply is associated with a .01 percentage point *decrease* in hotel occupancy rates. 
+At first, we thought this was a little strange. But when you consider the years we're looking at, it begins to make a little more sense. You see, the rise of Berlin as the place to be happened to coincide with the rise of Airbnb as the place to stay. We took a look at the number of passengers arriving at Berlin's two major airports over this same time period, and found that they increased by 25%. Once we accounted for this effect in our model, we found that a 10 percent increase in Airbnb supply is associated with a .01 percentage point *decrease* in hotel occupancy rates. 
  
 #### So, Airbnb is hurting hotels in Berlin? 
-Yes, but not that much. To put the effect in perspective, it means that adding about 1,530 Airbnb listings to the Airbnb supply merely causes a 0.01 percentage point decrease in hotel occupancy rates. So, Airbnb is likely having a negative impact on the hotel industry in Berlin, but it's so small they probably haven't noticed. Morever, Berlin is so popular right now that the general increase in travel to the city has more than compensated hotels for any "Airbnb effect" on their occupancy rates. 
+Yes, but not that much. To put the effect in perspective, it means that adding about 1,530 Airbnb listings to the Berlin Airbnb supply merely causes a 0.01 percentage point decrease in hotel occupancy rates. So, Airbnb is likely having a negative impact on the Berlin hotel industry, but it's so small they probably haven't noticed. Morever, Berlin is so popular right now that the general increase in travel to the city has more than compensated hotels for any "Airbnb effect" on their occupancy rates. 
 
 ### That seems a little anticlimactic.
 We agree, but we worked very hard on it. To better understand this relationship, we believe that future researchers should focus on cities where accomodation demand has been steady, and where Airbnb has been allowed to grow unimpeded. In isolation, the magnitude of the effect in our results is too small to derive much in the way of meaningful causality. However, we were forced to exclude data from 2015 and 2016 from our analysis, two years that we know Airbnb experienced enormous growth in Berlin. Given that growth, we would not be surprised to see much stronger results in a future analysis of this relationship in Berlin.
