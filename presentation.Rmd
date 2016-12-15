@@ -39,7 +39,7 @@ source("/Users/Paulo/GitHub/FinalPaper/code/finalpaper_analysis.R")
 
 >- "Zweckentfremdungsverbot" law was passed in May 2014 but only came into force in April 2016.
 
-## Airbnb in Berlin  {.flexbox .vcenter}
+## Airbnb in Berlin in 2015  {.flexbox .vcenter}
 
 ``` {r, echo=FALSE, warning=FALSE, message=FALSE}
 berlinmap <- qmap("Berlin", zoom = 12)
@@ -100,41 +100,49 @@ Main independent variables:
 2. **Dynamic Airbnb Supply:**  Active listings based on reviews
 
 
-## Airbnb Listings per Neighbourhood (static model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+## Airbnb Listings per Neighbourhood (Cum. Supply) (2010 - 2014)
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
 
 ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
     geom_line(alpha=0.7) + 
-    labs(x="Months", y="Number of Airbnb Listings") + 
+    labs(x="Year", y="Number of Airbnb Listings") + 
+    scale_y_continuous(breaks=c(0, 500, 1000, 1500, 2000, 2500, 3000)) + 
     scale_colour_discrete(name ="Neighbourhood") +
-    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
+    guides(col = guide_legend(nrow = 4)) +
+    theme(legend.position="bottom", legend.text = element_text(size = 9), legend.key.size = unit(.5, "cm"), legend.title=element_blank(), axis.title=element_text(size =9), axis.text=element_text(size=8))
 
 ```
 
 ## Airbnb Listings per Neighbourhood (dynamic model) (2010 - 2014)
-```{r, echo=FALSE, fig.height=4.5, fig.width=8}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 danalysis_simple$ymym <- as.yearmon(danalysis_simple$year_month)
 
 ggplot(danalysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
     geom_line(alpha=0.7) + 
-    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6) +
-    labs(x="Months", y="Number of Airbnb Listings") + 
-    scale_colour_discrete(name ="Neighbourhood") 
+    labs(x="Year", y="Number of Airbnb Listings") + 
+    scale_y_continuous(breaks=c(0, 250, 500, 750, 1000, 1250, 1500)) + 
+    scale_colour_discrete(name ="Neighbourhood") +
+    guides(col = guide_legend(nrow = 4)) +
+    theme(legend.position="bottom", legend.text = element_text(size = 9), legend.key.size = unit(.5, "cm"), legend.title=element_blank(), axis.title=element_text(size =9), axis.text=element_text(size=8))
+
 
 ```
 
 ## Effect of Increase in Airbnb Listings on Berlin Hotel Occupancy Rates (2010 - 2014)
-```{r, echo=FALSE, fig.height=3.8, fig.width=8}
+```{r, echo=FALSE}
+
 marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 
-ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+ggplot(marketentry_static, aes(x=log_ABsupply, y=occup_rate)) +
     geom_point(alpha=0.5, color="#c0392b") +
     geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
-    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate") +
+    theme(axis.title=element_text(size =9), axis.text=element_text(size=8))
+
 ```
 
 ##Regression Model
@@ -150,7 +158,7 @@ ${X'}$: Control variables (UE rate, average HH income, air passengers arriving i
 
 ${\tau _i}$: Time and district dummies
 
-##Estimation Results (Static Supply) {.flexbox .vcenter .reduced}
+##Estimation Results (Cum. Supply) {.flexbox .vcenter .reduced}
 
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 LMII <- function(x, y, z) { 
@@ -191,11 +199,11 @@ stargazer(ModelI, ModelIa, ModelII, ModelIII,
           header = FALSE,
           add.lines = list(c('District/Time FE?', c('No', "Yes", "Yes", "Yes"))),
           align = TRUE,
-          type = "latex")
+          type = "html")
 
 ```
 
-##Estimation Results (Static Supply) ## {.flexbox .vcenter .reduced}
+##Estimation Results (Cum. Supply) ## {.flexbox .vcenter .reduced}
 ``` {r, echo = FALSE, include=TRUE, message = FALSE, error = FALSE, results = "asis"}
 
 #Introduces a binary variable for Airbnb's official market entry + nonlinear

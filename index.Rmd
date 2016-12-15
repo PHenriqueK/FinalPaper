@@ -81,15 +81,17 @@ With all of this in mind, we decided to crunch the numbers and see if Berlin hot
 
 As you can see in the map above, Airbnb is now in every neighbourhood in Berlin. The platform's popularity has exploded in the city's most popular neighbourhoods in recent years, with Friedrichshain-Kreuzberg, Mitte, Pankow, and Neukoelln all experiencing rapid growth. 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 analysis_simple$ymym <- as.yearmon(analysis_simple$year_month)
 
 ggplot(analysis_simple, aes(x=ymym, y=AB_supply, group=neighbourhood, colour=neighbourhood)) +
     geom_line(alpha=0.7) + 
-    labs(x="Months", y="Number of Airbnb Listings") + 
+    labs(x="Year", y="Number of Airbnb Listings") + 
+    scale_y_continuous(breaks=c(0, 500, 1000, 1500, 2000, 2500, 3000)) + 
     scale_colour_discrete(name ="Neighbourhood") +
-    scale_x_yearmon(as.yearmon(analysis_simple$ymym), format = "%Y-%m", n = 6)
+    guides(col = guide_legend(nrow = 4)) +
+    theme(legend.position="bottom", legend.text = element_text(size = 9), legend.key.size = unit(.5, "cm"), legend.title=element_blank(), axis.title=element_text(size =9), axis.text=element_text(size=8))
 
 ```
 
@@ -103,10 +105,12 @@ This is where things got a little bit complicated. When we first plotted the rel
 marketentry_dynamic <- subset(danalysis_simple, danalysis_simple$dmarketentry==1)
 marketentry_static <- subset(analysis_simple, analysis_simple$dmarketentry==1)
 
-ggplot(marketentry_dynamic, aes(x=log_ABsupply, y=occup_rate)) +
+ggplot(marketentry_static, aes(x=log_ABsupply, y=occup_rate)) +
     geom_point(alpha=0.5, color="#c0392b") +
     geom_smooth(method = "lm", se = FALSE, color="black", fill="black") +
-    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate")
+    labs(x="Log Number of Airbnb Listings", y="Hotel Occupance Rate") +
+    theme(axis.title=element_text(size =9), axis.text=element_text(size=8))
+
 ```
 
 
@@ -120,7 +124,7 @@ At first, we thought this was a little strange. But when you consider the years 
 
 ## So, Airbnb is hurting hotels in Berlin? 
 
-Yes, but not that much. To put the effect in perspective, it means that adding about 1,530 Airbnb listings to the Berlin Airbnb supply merely causes a 0.1 percentage point decrease in hotel occupancy rates. So, Airbnb is likely having a negative impact on the Berlin hotel industry, but it's so small they probably haven't noticed. Morever, Berlin is so popular right now that the general increase in travel to the city has more than compensated hotels for any "Airbnb effect" on their occupancy rates. 
+Yes, but not that much. To put the effect in perspective, it means that adding about 1,530 Airbnb listings to the Berlin Airbnb supply merely causes a 0.12 percentage point decrease in hotel occupancy rates. So, Airbnb is likely having a negative impact on the Berlin hotel industry, but it's so small they probably haven't noticed. Morever, Berlin is so popular right now that the general increase in travel to the city has more than compensated hotels for any "Airbnb effect" on their occupancy rates. 
 
 <br>
 
