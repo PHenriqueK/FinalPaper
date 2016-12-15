@@ -8,6 +8,7 @@
 ##########################
 
 #Dynamical link
+#Set working directory
 source('code/merge.R')
 
 ##### Data Prep and descriptive analysis using the static supply #####
