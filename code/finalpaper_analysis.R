@@ -6,6 +6,8 @@
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
 ## What it does: merging cleaned data sets
 ##########################
+try(setwd("/Users/Paulo/GitHub/FinalPaper"),silent=TRUE)
+try(setwd("/Users/djm113/Documents/GitHub/FinalPaper"),silent=TRUE)
 
 #Dynamical link
 source('code/merge.R')
